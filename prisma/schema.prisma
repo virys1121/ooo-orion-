@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?   // FIO
+  email         String?   @unique
+  password      String
+  role          String    @default("PARENT") // ADMIN, TEACHER, PARENT
+  workplace     String?
+
+  // Relations
+  children      Child[]   @relation("ParentToChild")
+  managedGroups Group[]   @relation("TeacherToGroup")
+  messagesSent  Message[] @relation("SentMessages")
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Child {
+  id          String   @id @default(cuid())
+  name        String   // FIO
+  gender      String   // MALE, FEMALE
+  schedule    String?  // Weekly schedule text
+
+  // Relations
+  parents     User[]   @relation("ParentToChild")
+  groupId     String?
+  group       Group?   @relation(fields: [groupId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Group {
+  id          String   @id @default(cuid())
+  name        String   @unique
+
+  // Relations
+  teachers    User[]   @relation("TeacherToGroup")
+  children    Child[]
+  messages    Message[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Application {
+  id              String   @id @default(cuid())
+  parentName      String
+  childName       String
+  parentWorkplace String
+  email           String
+  about           String
+  childGender     String
+  status          String   @default("PENDING") // PENDING, APPROVED, REJECTED
+
+  createdAt       DateTime @default(now())
+}
+
+model NewsPost {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  authorId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  senderId  String
+  sender    User     @relation("SentMessages", fields: [senderId], references: [id])
+
+  // Chat can be group-based or private
+  groupId   String?
+  group     Group?   @relation(fields: [groupId], references: [id])
+
+  receiverId String? // For private messages between Parent and Teacher
+
+  createdAt DateTime @default(now())
+}
