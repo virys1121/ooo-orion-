@@ -1,98 +1,186 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { Send, User, MapPin, Mail, MessageSquare, CheckCircle2 } from "lucide-react";
 
 export default function ApplyPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [formData, setFormData] = useState({
+    parentName: "",
+    childName: "",
+    workplace: "",
+    email: "",
+    about: "",
+    gender: "male",
+  });
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-
+    setStatus("loading");
     try {
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
       });
-
-      if (res.ok) {
-        setSubmitted(true);
-      } else {
-        alert("Ошибка при отправке заявки. Попробуйте еще раз.");
-      }
-    } catch (error) {
-      alert("Произошла ошибка.");
-    } finally {
-      setLoading(false);
+      if (res.ok) setStatus("success");
+      else setStatus("error");
+    } catch {
+      setStatus("error");
     }
-  }
+  };
 
-  if (submitted) {
+  if (status === "success") {
     return (
-      <div className="container mx-auto px-4 py-20 text-center">
-        <h1 className="text-3xl font-bold text-green-600 mb-4">Заявка успешно отправлена!</h1>
-        <p className="text-xl text-gray-600">Мы свяжемся с вами в ближайшее время по указанной электронной почте.</p>
+      <div className="min-h-[60vh] flex items-center justify-center p-4">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="text-center bg-white p-12 rounded-3xl shadow-2xl max-w-lg border-2 border-green-100"
+        >
+          <div className="bg-green-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle2 className="w-12 h-12 text-green-600" />
+          </div>
+          <h2 className="text-3xl font-black text-blue-900 mb-4">Заявка принята!</h2>
+          <p className="text-gray-600 text-lg">Мы свяжемся с вами по указанной электронной почте в ближайшее время после проверки данных службой безопасности.</p>
+          <button onClick={() => setStatus("idle")} className="mt-8 btn-primary">Подать еще одну</button>
+        </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-2xl">
-      <h1 className="text-3xl font-bold mb-8 text-center">Заявление на поступление</h1>
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-md border border-gray-100 space-y-6">
-        <div className="grid md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">ФИО родителей</label>
-            <input name="parentName" required className="w-full border rounded-md p-2" placeholder="Иванов Иван Иванович" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">ФИО ребенка</label>
-            <input name="childName" required className="w-full border rounded-md p-2" placeholder="Иванов Петр Иванович" />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Место работы родителей</label>
-          <input name="parentWorkplace" required className="w-full border rounded-md p-2" placeholder="Название организации" />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Электронная почта</label>
-          <input name="email" type="email" required className="w-full border rounded-md p-2" placeholder="example@mail.ru" />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Пол ребенка</label>
-          <select name="childGender" required className="w-full border rounded-md p-2">
-            <option value="">Выберите пол</option>
-            <option value="MALE">Мужской</option>
-            <option value="FEMALE">Женский</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">О себе и ребенке</label>
-          <textarea
-            name="about"
-            required
-            rows={4}
-            className="w-full border rounded-md p-2"
-            placeholder="Расскажите кратко о вашей семье и особенностях ребенка"
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-3 rounded-md font-bold hover:bg-blue-700 transition-colors disabled:bg-blue-300"
+    <div className="bg-gray-50 py-16 px-4">
+      <div className="container mx-auto max-w-3xl">
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100"
         >
-          {loading ? "Отправка..." : "Подать заявление"}
-        </button>
-      </form>
+          <div className="bg-blue-900 p-12 text-white relative overflow-hidden">
+            <div className="relative z-10">
+              <h1 className="text-4xl font-black mb-4">Подача заявления</h1>
+              <p className="text-blue-100 text-lg">Заполните форму для рассмотрения кандидатуры вашего ребенка на поступление в АНО ЦДО «ОРИОН».</p>
+            </div>
+            <ShieldIcon className="absolute -right-12 -bottom-12 w-64 h-64 text-white/5 rotate-12" />
+          </div>
+
+          <form onSubmit={handleSubmit} className="p-12 space-y-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="flex items-center space-x-2 text-sm font-bold text-blue-900 uppercase tracking-wider">
+                  <User className="w-4 h-4" />
+                  <span>ФИО Родителя</span>
+                </label>
+                <input
+                  required
+                  className="input-field"
+                  placeholder="Иванов Иван Иванович"
+                  value={formData.parentName}
+                  onChange={(e) => setFormData({ ...formData, parentName: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="flex items-center space-x-2 text-sm font-bold text-blue-900 uppercase tracking-wider">
+                  <User className="w-4 h-4" />
+                  <span>ФИО Ребенка</span>
+                </label>
+                <input
+                  required
+                  className="input-field"
+                  placeholder="Иванов Петр Иванович"
+                  value={formData.childName}
+                  onChange={(e) => setFormData({ ...formData, childName: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="flex items-center space-x-2 text-sm font-bold text-blue-900 uppercase tracking-wider">
+                  <MapPin className="w-4 h-4" />
+                  <span>Место работы</span>
+                </label>
+                <input
+                  required
+                  className="input-field"
+                  placeholder="Название организации"
+                  value={formData.workplace}
+                  onChange={(e) => setFormData({ ...formData, workplace: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="flex items-center space-x-2 text-sm font-bold text-blue-900 uppercase tracking-wider">
+                  <Mail className="w-4 h-4" />
+                  <span>Электронная почта</span>
+                </label>
+                <input
+                  required
+                  type="email"
+                  className="input-field"
+                  placeholder="email@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="flex items-center space-x-2 text-sm font-bold text-blue-900 uppercase tracking-wider">
+                <MessageSquare className="w-4 h-4" />
+                <span>О себе и ребенке</span>
+              </label>
+              <textarea
+                required
+                rows={4}
+                className="input-field resize-none"
+                placeholder="Расскажите о достижениях, особенностях или пожеланиях..."
+                value={formData.about}
+                onChange={(e) => setFormData({ ...formData, about: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-4">
+              <label className="block text-sm font-bold text-blue-900 uppercase tracking-wider">Пол ребенка</label>
+              <div className="flex space-x-6">
+                {["male", "female"].map((g) => (
+                  <label key={g} className="flex items-center space-x-3 cursor-pointer group">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value={g}
+                      checked={formData.gender === g}
+                      onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                      className="w-5 h-5 text-blue-900 border-gray-300 focus:ring-blue-900"
+                    />
+                    <span className="text-lg font-medium text-gray-700 group-hover:text-blue-900 transition-colors">
+                      {g === "male" ? "Мужской" : "Женский"}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              className="w-full btn-primary py-5 text-xl flex items-center justify-center space-x-3 group disabled:opacity-50"
+            >
+              <span>{status === "loading" ? "Отправка..." : "Отправить заявление"}</span>
+              <Send className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </button>
+          </form>
+        </motion.div>
+      </div>
     </div>
+  );
+}
+
+function ShieldIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+    </svg>
   );
 }

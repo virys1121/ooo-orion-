@@ -1,36 +1,43 @@
-"use client";
-
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
+import { Shield, Info, ClipboardList, LogIn, LayoutDashboard } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
-export default function Header() {
-  const { data: session } = useSession();
+export default async function Header() {
+  const session = await getServerSession(authOptions);
 
   return (
-    <header className="bg-blue-700 text-white shadow-md">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold">
-          АНО ЦДО «ОРИОН»
+    <header className="bg-blue-900 text-white sticky top-0 z-50 shadow-2xl">
+      <div className="container mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
+        <Link href="/" className="flex items-center space-x-3 group">
+          <div className="bg-yellow-400 p-2 rounded-lg group-hover:rotate-12 transition-transform">
+            <Shield className="w-8 h-8 text-blue-900" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xl font-black tracking-tighter leading-none">ЦДО «ОРИОН»</span>
+            <span className="text-[10px] uppercase tracking-widest text-yellow-400 font-bold">имени Бигаева М.А.</span>
+          </div>
         </Link>
-        <nav className="hidden md:flex space-x-6 items-center">
-          <Link href="/" className="hover:text-blue-200">Главная</Link>
-          <Link href="/events" className="hover:text-blue-200">Островок событий</Link>
-          <Link href="/apply" className="hover:text-blue-200">Заявка на поступление</Link>
+
+        <nav className="flex items-center space-x-1 md:space-x-4 mt-4 md:mt-0">
+          <Link href="/events" className="flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+            <Info className="w-4 h-4" />
+            <span className="hidden sm:inline font-medium">Островок событий</span>
+          </Link>
+          <Link href="/apply" className="flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+            <ClipboardList className="w-4 h-4" />
+            <span className="hidden sm:inline font-medium">Поступление</span>
+          </Link>
 
           {session ? (
-            <>
-              <Link href="/dashboard" className="hover:text-blue-200">Личный кабинет</Link>
-              <Link href="/chat" className="hover:text-blue-200">Чат</Link>
-              <button
-                onClick={() => signOut()}
-                className="bg-blue-800 px-4 py-2 rounded hover:bg-blue-900"
-              >
-                Выход
-              </button>
-            </>
+            <Link href="/dashboard" className="bg-yellow-400 text-blue-900 px-4 py-2 rounded-full font-bold flex items-center space-x-2 hover:bg-white hover:text-blue-900 transition-all">
+              <LayoutDashboard className="w-4 h-4" />
+              <span>Кабинет</span>
+            </Link>
           ) : (
-            <Link href="/api/auth/signin" className="bg-blue-800 px-4 py-2 rounded hover:bg-blue-900">
-              Вход
+            <Link href="/auth/signin" className="border-2 border-yellow-400 text-yellow-400 px-6 py-2 rounded-full font-bold flex items-center space-x-2 hover:bg-yellow-400 hover:text-blue-900 transition-all">
+              <LogIn className="w-4 h-4" />
+              <span>Вход</span>
             </Link>
           )}
         </nav>
