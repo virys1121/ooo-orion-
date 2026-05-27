@@ -23,7 +23,8 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
   async function fetchMessages() {
     if (!activeRoom) return;
     try {
-      const res = await fetch(`/api/chat?groupId=${activeRoom.id}`);
+      const param = activeRoom.type === "GROUP" ? `groupId=${activeRoom.id}` : `receiverId=${activeRoom.id}`;
+      const res = await fetch(`/api/chat?${param}`);
       if (res.ok) {
         const data = await res.json();
         setMessages(data);
@@ -35,14 +36,18 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
     e.preventDefault();
     if (!input.trim() || !activeRoom) return;
 
+    const body: any = { content: input };
+    if (activeRoom.type === "GROUP") {
+      body.groupId = activeRoom.id;
+    } else {
+      body.receiverId = activeRoom.id;
+    }
+
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: input,
-          groupId: activeRoom.id,
-        }),
+        body: JSON.stringify(body),
       });
 
       if (res.ok) {

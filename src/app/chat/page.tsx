@@ -16,10 +16,22 @@ export default async function ChatPage() {
     include: {
       children: {
         include: {
-          group: true,
+          group: {
+            include: {
+              teachers: true
+            }
+          },
         },
       },
-      managedGroups: true,
+      managedGroups: {
+        include: {
+          children: {
+            include: {
+              parents: true
+            }
+          }
+        }
+      },
     },
   });
 
@@ -29,12 +41,23 @@ export default async function ChatPage() {
   let chatRooms: { id: string; name: string; type: "GROUP" | "PRIVATE" }[] = [];
 
   if (user.role === "PARENT") {
+    const processedGroups = new Set();
     user.children.forEach((child) => {
-      if (child.group) {
+      if (child.group && !processedGroups.has(child.group.id)) {
+        processedGroups.add(child.group.id);
         chatRooms.push({
           id: child.group.id,
           name: `Группа: ${child.group.name}`,
           type: "GROUP",
+        });
+
+        // Add private chats with teachers of this group
+        child.group.teachers.forEach(teacher => {
+          chatRooms.push({
+            id: teacher.id,
+            name: `Воспитатель: ${teacher.name}`,
+            type: "PRIVATE",
+          });
         });
       }
     });
@@ -44,6 +67,20 @@ export default async function ChatPage() {
         id: group.id,
         name: `Группа: ${group.name}`,
         type: "GROUP",
+      });
+
+      // Add private chats with parents of children in this group
+      group.children.forEach(child => {
+        child.parents.forEach(parent => {
+          // Check if already added to avoid duplicates if parent has multiple children in group
+          if (!chatRooms.some(r => r.id === parent.id)) {
+            chatRooms.push({
+              id: parent.id,
+              name: `Родитель: ${parent.name} (${child.name})`,
+              type: "PRIVATE",
+            });
+          }
+        });
       });
     });
   } else if (user.role === "ADMIN") {
