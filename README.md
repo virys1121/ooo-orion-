@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# АНО ЦДО «ОРИОН» имени Бигаева М.А. - Kindergarten Website
 
-## Getting Started
+A secure and modern website for the "ORION" kindergarten, featuring a landing page with specific safety details, an events board, parent enrollment, and a group-based chat system.
 
-First, run the development server:
+## 🔑 Admin Access (Hidden Area)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The administrative panel is located at a specific hidden URL for security reasons:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Hidden Admin URL:** `/admin-hidden-panel`
+**Full Path (Local):** `http://localhost:3000/admin-hidden-panel`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Default Admin Credentials:
+*   **Login:** `admin@orion.ru`
+*   **Password:** `admin123`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+*Note: In this area, the administrator can manage users, assign children to groups, and review admission applications.*
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Quick Start
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Windows:
+Run `start.bat`. It will install dependencies, push the database schema, and start the server.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Linux / macOS:
+Run `bash start.sh`.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠 Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1.  **Landing Page**: Information about safety (PMC Vektor), bunkers, survival courses, and robotics.
+2.  **Event Island (Островок событий)**: Private news board for authenticated users.
+3.  **Admission Form**: Digital application for new enrollments.
+4.  **Secure Chat**: Real-time polling chat for groups and private teacher-parent communication.
+5.  **User Dashboard**: Role-based views for parents and teachers.
+
+---
+
+For more details in Russian, see [README_RU.md](./README_RU.md).
