@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Shield, Info, ClipboardList, LogIn, LayoutDashboard } from "lucide-react";
+import { Shield, Info, ClipboardList, LogIn, LayoutDashboard, LogOut } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import LogoutButton from "./LogoutButton";
 
 export default async function Header() {
   const session = await getServerSession(authOptions);
@@ -30,10 +31,13 @@ export default async function Header() {
           </Link>
 
           {session ? (
-            <Link href="/dashboard" className="bg-yellow-400 text-blue-900 px-4 py-2 rounded-full font-bold flex items-center space-x-2 hover:bg-white hover:text-blue-900 transition-all">
-              <LayoutDashboard className="w-4 h-4" />
-              <span>Кабинет</span>
-            </Link>
+            <div className="flex items-center space-x-4">
+              <Link href="/dashboard" className="bg-yellow-400 text-blue-900 px-4 py-2 rounded-full font-bold flex items-center space-x-2 hover:bg-white hover:text-blue-900 transition-all">
+                <LayoutDashboard className="w-4 h-4" />
+                <span>Кабинет</span>
+              </Link>
+              <LogoutButton />
+            </div>
           ) : (
             <Link href="/auth/signin" className="border-2 border-yellow-400 text-yellow-400 px-6 py-2 rounded-full font-bold flex items-center space-x-2 hover:bg-yellow-400 hover:text-blue-900 transition-all">
               <LogIn className="w-4 h-4" />

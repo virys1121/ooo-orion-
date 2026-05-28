@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import UserForm from "./UserForm";
+import DeleteUserButton from "./DeleteUserButton";
 
 export default async function AdminUsersPage() {
   const session = await getServerSession(authOptions);
@@ -50,6 +51,9 @@ export default async function AdminUsersPage() {
                       </div>
                     )}
                   </div>
+                  {(session.user as any).id !== user.id && (
+                    <DeleteUserButton userId={user.id} />
+                  )}
                 </div>
               </div>
             ))}

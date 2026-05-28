@@ -79,6 +79,7 @@ export default async function AdminPage() {
                 <tr className="bg-gray-50 border-b border-gray-100">
                   <th className="px-8 py-4 text-sm font-bold text-gray-500 uppercase tracking-wider">Заявитель</th>
                   <th className="px-8 py-4 text-sm font-bold text-gray-500 uppercase tracking-wider">Ребенок</th>
+                  <th className="px-8 py-4 text-sm font-bold text-gray-500 uppercase tracking-wider">Контакт</th>
                   <th className="px-8 py-4 text-sm font-bold text-gray-500 uppercase tracking-wider">Информация</th>
                   <th className="px-8 py-4 text-sm font-bold text-gray-500 uppercase tracking-wider">Дата</th>
                 </tr>
@@ -86,7 +87,7 @@ export default async function AdminPage() {
               <tbody className="divide-y divide-gray-100">
                 {applications.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="px-8 py-12 text-center text-gray-400 font-medium">Заявок пока нет.</td>
+                    <td colSpan={5} className="px-8 py-12 text-center text-gray-400 font-medium">Заявок пока нет.</td>
                   </tr>
                 )}
                 {applications.map((app) => (
@@ -101,8 +102,14 @@ export default async function AdminPage() {
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${app.childGender === 'MALE' ? 'bg-blue-100 text-blue-700' : 'bg-pink-100 text-pink-700'}`}>
                           {app.childGender === 'MALE' ? 'М' : 'Ж'}
                         </div>
-                        <p className="font-bold text-gray-800">{app.childName}</p>
+                        <div>
+                          <p className="font-bold text-gray-800">{app.childName}</p>
+                          <p className="text-xs text-gray-500">Возраст: {app.childAge || "Не указан"}</p>
+                        </div>
                       </div>
+                    </td>
+                    <td className="px-8 py-6">
+                      <p className="text-sm font-bold text-gray-700">{app.phone || "Нет номера"}</p>
                     </td>
                     <td className="px-8 py-6">
                       <p className="text-sm text-gray-600 line-clamp-2 italic">"{app.about}"</p>

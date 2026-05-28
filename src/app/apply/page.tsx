@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, User, MapPin, Mail, MessageSquare, CheckCircle2 } from "lucide-react";
+import { Send, User, MapPin, Mail, MessageSquare, CheckCircle2, ClipboardList } from "lucide-react";
 
 export default function ApplyPage() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [formData, setFormData] = useState({
     parentName: "",
     childName: "",
+    childAge: "",
+    phone: "",
     workplace: "",
     email: "",
     about: "",
@@ -99,7 +101,20 @@ export default function ApplyPage() {
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-2">
                 <label className="flex items-center space-x-2 text-sm font-bold text-blue-900 uppercase tracking-wider">
-                  <MapPin className="w-4 h-4" />
+                  <ClipboardList className="w-4 h-4 text-blue-600" />
+                  <span>Возраст ребенка</span>
+                </label>
+                <input
+                  required
+                  className="input-field"
+                  placeholder="Например: 5 лет"
+                  value={formData.childAge}
+                  onChange={(e) => setFormData({ ...formData, childAge: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="flex items-center space-x-2 text-sm font-bold text-blue-900 uppercase tracking-wider">
+                  <MapPin className="w-4 h-4 text-blue-600" />
                   <span>Место работы</span>
                 </label>
                 <input
@@ -110,9 +125,12 @@ export default function ApplyPage() {
                   onChange={(e) => setFormData({ ...formData, workplace: e.target.value })}
                 />
               </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-2">
                 <label className="flex items-center space-x-2 text-sm font-bold text-blue-900 uppercase tracking-wider">
-                  <Mail className="w-4 h-4" />
+                  <Mail className="w-4 h-4 text-blue-600" />
                   <span>Электронная почта</span>
                 </label>
                 <input
@@ -122,6 +140,20 @@ export default function ApplyPage() {
                   placeholder="email@example.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="flex items-center space-x-2 text-sm font-bold text-blue-900 uppercase tracking-wider">
+                  <Send className="w-4 h-4 text-blue-600" />
+                  <span>Номер телефона</span>
+                </label>
+                <input
+                  required
+                  type="tel"
+                  className="input-field"
+                  placeholder="+7 (___) ___-__-__"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 />
               </div>
             </div>

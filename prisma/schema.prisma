@@ -56,6 +56,8 @@ model Application {
   id              String   @id @default(cuid())
   parentName      String
   childName       String
+  childAge        String?
+  phone           String?
   parentWorkplace String
   email           String
   about           String

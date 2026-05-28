@@ -57,3 +57,33 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session || (session.user as any).role !== "ADMIN") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+
+    if (!userId) {
+      return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    }
+
+    // Prevent admin from deleting themselves
+    if (userId === (session.user as any).id) {
+      return NextResponse.json({ error: "Cannot delete yourself" }, { status: 400 });
+    }
+
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
