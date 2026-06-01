@@ -42,11 +42,14 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="relative z-10 text-center px-4 max-w-4xl"
         >
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-lg">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-lg tracking-tighter">
             АНО ЦДО «ОРИОН»
           </h1>
-          <p className="text-2xl md:text-3xl font-light mb-8 drop-shadow-md">
-            Самый надежный и безопасный детский сад имени Бигаева М.А.
+          <p className="text-2xl md:text-3xl font-medium mb-8 drop-shadow-md text-yellow-400">
+            имени Бигаева Марата А.
+          </p>
+          <p className="text-xl md:text-2xl font-light mb-10 drop-shadow-md max-w-2xl mx-auto">
+            Элитное дошкольное образование с усиленным контуром безопасности и прикладной подготовкой к жизни.
           </p>
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -76,8 +79,11 @@ export default function Home() {
             <p className="text-xl text-gray-700 leading-relaxed mb-6">
               Мы не просто детский сад. Мы — крепость знаний и безопасности. В <strong>АНО ЦДО «ОРИОН»</strong> мы совмещаем традиционное воспитание с углубленным патриотизмом и практической подготовкой к жизни.
             </p>
-            <p className="text-xl text-gray-700 leading-relaxed">
+            <p className="text-xl text-gray-700 leading-relaxed mb-6">
               Наши воспитанники — это будущее поколение, готовое к любым вызовам современного мира. Мы уделяем внимание не только физическому, но и ментальному здоровью.
+            </p>
+            <p className="text-xl text-gray-700 leading-relaxed">
+              Тщательный подбор персонала — наш приоритет. У нас работают люди, готовые отдать жизнь за жизнь будущего поколения.
             </p>
           </motion.div>
 
@@ -113,9 +119,9 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-12">
             {[
               {
-                title: "Выживание",
-                desc: "Уникальные курсы ориентирования и выживания в дикой природе для старших групп.",
-                icon: "🌲",
+                title: "Полевая подготовка",
+                desc: "Основы полевой подготовки и прикладного ориентирования для формирования стойкого характера.",
+                icon: "🧭",
                 img: "https://images.unsplash.com/photo-1533224383181-799f923e1e69?q=80&w=1974&auto=format&fit=crop"
               },
               {

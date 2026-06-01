@@ -29,7 +29,7 @@ Run `bash start.sh`.
 
 ## 🛠 Features
 
-1.  **Landing Page**: Information about safety (PMC Vektor), bunkers, survival courses, and robotics.
+1.  **Landing Page**: Information about safety (PMC Vektor), bunkers, Field Training & Applied Orientation, and robotics.
 2.  **Event Island (Островок событий)**: Private news board for authenticated users.
 3.  **Admission Form**: Digital application for new enrollments.
 4.  **Secure Chat**: Real-time polling chat for groups and private teacher-parent communication.

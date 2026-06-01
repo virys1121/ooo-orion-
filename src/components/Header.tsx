@@ -21,8 +21,12 @@ export default async function Header() {
         </Link>
 
         <nav className="flex items-center space-x-1 md:space-x-4 mt-4 md:mt-0">
-          <Link href="/events" className="flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+          <Link href="/about" className="flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
             <Info className="w-4 h-4" />
+            <span className="hidden sm:inline font-medium">О нас</span>
+          </Link>
+          <Link href="/events" className="flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+            <Shield className="w-4 h-4" />
             <span className="hidden sm:inline font-medium">Островок событий</span>
           </Link>
           <Link href="/apply" className="flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">

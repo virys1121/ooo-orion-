@@ -40,7 +40,7 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-8 border-b-2 border-yellow-400 pb-2 inline-block">Спец. разделы</h3>
             <ul className="space-y-4 font-medium">
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Робототехника</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Курс выживания</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Полевая подготовка</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Безопасность (Вектор)</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Для сотрудников</a></li>
             </ul>

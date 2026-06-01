@@ -17,8 +17,10 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
   }, [activeRoom]);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (messages.length > 0) {
+      scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages.length]);
 
   async function fetchMessages() {
     if (!activeRoom) return;
