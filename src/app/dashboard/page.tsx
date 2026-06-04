@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import ScheduleEditor from "./ScheduleEditor";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -105,14 +106,51 @@ export default async function DashboardPage() {
             {user.managedGroups.length === 0 ? (
               <p className="text-gray-500">У вас нет назначенных групп.</p>
             ) : (
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-1 gap-8">
                 {user.managedGroups.map((group) => (
-                  <div key={group.id} className="border p-4 rounded-lg bg-gray-50">
-                    <h3 className="font-bold text-lg mb-2">Группа: {group.name}</h3>
-                    <p className="text-sm text-gray-500 mb-4">Количество детей: {group.children.length}</p>
-                    <Link href="/chat" className="inline-block bg-blue-600 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-blue-700">
-                      Открыть чат группы
-                    </Link>
+                  <div key={group.id} className="border p-6 rounded-2xl bg-gray-50">
+                    <div className="flex justify-between items-start mb-6">
+                      <div>
+                        <h3 className="font-bold text-2xl text-blue-900">Группа: {group.name}</h3>
+                        <p className="text-sm text-gray-500">Количество детей: {group.children.length}</p>
+                      </div>
+                      <Link href="/chat" className="bg-blue-600 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors shadow-md">
+                        Открыть чат группы
+                      </Link>
+                    </div>
+
+                    <div className="bg-white rounded-xl overflow-hidden border border-gray-200">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="bg-gray-100 text-gray-600 text-xs uppercase tracking-wider">
+                            <th className="px-4 py-3 font-bold">Воспитанник</th>
+                            <th className="px-4 py-3 font-bold">Родители</th>
+                            <th className="px-4 py-3 font-bold">Управление расписанием</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100">
+                          {group.children.map(child => (
+                            <tr key={child.id} className="hover:bg-blue-50/30 transition-colors">
+                              <td className="px-4 py-4 align-top">
+                                <p className="font-bold text-gray-800">{child.name}</p>
+                                <p className="text-xs text-gray-400 uppercase">{child.gender === 'MALE' ? 'Мальчик' : 'Девочка'}</p>
+                              </td>
+                              <td className="px-4 py-4 align-top">
+                                {child.parents.map(p => (
+                                  <div key={p.id} className="text-sm mb-1">
+                                    <p className="font-medium text-blue-900">{p.name}</p>
+                                    <p className="text-xs text-gray-500">{p.email}</p>
+                                  </div>
+                                ))}
+                              </td>
+                              <td className="px-4 py-4">
+                                <ScheduleEditor childId={child.id} initialSchedule={child.schedule} />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 ))}
               </div>

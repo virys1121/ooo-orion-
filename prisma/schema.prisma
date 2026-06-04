@@ -72,6 +72,8 @@ model NewsPost {
   title     String
   content   String
   authorId  String
+  mediaUrl  String?
+  mediaType String?  // 'IMAGE' or 'VIDEO'
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

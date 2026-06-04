@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('verify about page content', async ({ page }) => {
-  await page.goto('/about');
+  await page.goto('http://localhost:3001/about');
 
   // Wait for the main heading
   await expect(page.locator('h1')).toContainText('О нас');
@@ -13,7 +13,7 @@ test('verify about page content', async ({ page }) => {
   await expect(page.locator('text=100% Безопасность')).toBeVisible();
 
   // Check for staff
-  await expect(page.locator('text=Александр Векторов')).toBeVisible();
+  await expect(page.locator('text=Кортиева Лела Л.')).toBeVisible();
   await expect(page.locator('text=Елена Бигаева')).toBeVisible();
   await expect(page.locator('text=Дмитрий Техников')).toBeVisible();
 

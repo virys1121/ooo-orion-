@@ -43,7 +43,7 @@ export default function Home() {
           className="relative z-10 text-center px-4 max-w-4xl"
         >
           <h1 className="text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-lg tracking-tighter">
-            АНО ЦДО «ОРИОН»
+            Центр дошкольного обучения «ОРИОН»
           </h1>
           <p className="text-2xl md:text-3xl font-medium mb-8 drop-shadow-md text-yellow-400">
             имени Бигаева Марата А.
@@ -77,7 +77,7 @@ export default function Home() {
           <motion.div variants={itemVariants}>
             <h2 className="text-4xl font-black mb-8 text-blue-900 border-l-8 border-yellow-400 pl-6">Наша философия</h2>
             <p className="text-xl text-gray-700 leading-relaxed mb-6">
-              Мы не просто детский сад. Мы — крепость знаний и безопасности. В <strong>АНО ЦДО «ОРИОН»</strong> мы совмещаем традиционное воспитание с углубленным патриотизмом и практической подготовкой к жизни.
+              Мы не просто детский сад. Мы — крепость знаний и безопасности. В <strong>Центре дошкольного обучения «ОРИОН»</strong> мы совмещаем традиционное воспитание с углубленным патриотизмом и практической подготовкой к жизни.
             </p>
             <p className="text-xl text-gray-700 leading-relaxed mb-6">
               Наши воспитанники — это будущее поколение, готовое к любым вызовам современного мира. Мы уделяем внимание не только физическому, но и ментальному здоровью.

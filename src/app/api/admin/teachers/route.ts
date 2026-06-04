@@ -3,27 +3,19 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || (session.user as any).role !== "ADMIN") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
-    const { title, content, mediaUrl, mediaType } = body;
-
-    const post = await prisma.newsPost.create({
-      data: {
-        title,
-        content,
-        mediaUrl,
-        mediaType,
-        authorId: (session.user as any).id,
-      },
+    const teachers = await prisma.user.findMany({
+      where: { role: "TEACHER" },
+      select: { id: true, name: true, email: true }
     });
 
-    return NextResponse.json(post);
+    return NextResponse.json(teachers);
   } catch (error) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }

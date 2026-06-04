@@ -32,7 +32,7 @@ export default function AboutPage() {
         <div className="relative z-10 text-center px-4">
           <h1 className="text-5xl font-black mb-4">О нас</h1>
           <p className="text-xl max-w-2xl mx-auto font-medium">
-            АНО ЦДО «ОРИОН» — это место, где безопасность встречается с передовым образованием.
+            Центр дошкольного обучения «ОРИОН» — это место, где безопасность встречается с передовым образованием.
           </p>
         </div>
       </section>
@@ -92,10 +92,10 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-12">
             {[
               {
-                name: "Александр Векторов",
-                role: "Руководитель службы безопасности",
-                img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop",
-                bio: "Ветеран спецподразделений, эксперт по тактической подготовке."
+                name: "Кортиева Лела Л.",
+                role: "Главный секретарь",
+                img: "/images/lela_kortieva.jpg",
+                bio: "Обеспечивает безупречную координацию и административную поддержку центра."
               },
               {
                 name: "Елена Бигаева",

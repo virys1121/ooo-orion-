@@ -34,13 +34,22 @@ export default async function AdminPage() {
               </h1>
               <p className="text-blue-200">Администрирование АНО ЦДО «ОРИОН»</p>
             </div>
-            <Link
-              href="/admin-hidden-panel/users"
-              className="bg-yellow-400 text-blue-900 px-8 py-3 rounded-xl font-black hover:bg-white transition-all flex items-center gap-2 shadow-lg"
-            >
-              <Users className="w-5 h-5" />
-              Управление персоналом и родителями
-            </Link>
+            <div className="flex gap-4">
+              <Link
+                href="/admin-hidden-panel/groups"
+                className="bg-blue-700 text-white px-8 py-3 rounded-xl font-black hover:bg-blue-600 transition-all flex items-center gap-2 shadow-lg border border-blue-500"
+              >
+                <Settings className="w-5 h-5" />
+                Группы
+              </Link>
+              <Link
+                href="/admin-hidden-panel/users"
+                className="bg-yellow-400 text-blue-900 px-8 py-3 rounded-xl font-black hover:bg-white transition-all flex items-center gap-2 shadow-lg"
+              >
+                <Users className="w-5 h-5" />
+                Управление пользователями
+              </Link>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">

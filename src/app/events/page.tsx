@@ -33,7 +33,16 @@ export default async function EventsPage() {
           <p className="text-center text-gray-500 py-10">Новостей пока нет.</p>
         )}
         {news.map((post) => (
-          <article key={post.id} className="bg-white p-8 rounded-2xl shadow-sm border border-blue-50">
+          <article key={post.id} className="bg-white p-8 rounded-2xl shadow-sm border border-blue-50 overflow-hidden">
+            {post.mediaUrl && (
+              <div className="mb-6 rounded-xl overflow-hidden bg-gray-100 max-h-[500px] flex items-center justify-center">
+                {post.mediaType === "IMAGE" ? (
+                  <img src={post.mediaUrl} alt={post.title} className="w-full h-full object-contain" />
+                ) : (
+                  <video src={post.mediaUrl} controls className="w-full h-full" />
+                )}
+              </div>
+            )}
             <h3 className="text-2xl font-bold mb-2 text-blue-800">{post.title}</h3>
             <div className="text-sm text-gray-400 mb-4">
               {new Date(post.createdAt).toLocaleDateString("ru-RU")}

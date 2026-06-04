@@ -41,6 +41,20 @@ export default function EventForm() {
         <label className="block text-sm font-medium mb-1">Содержание</label>
         <textarea name="content" required rows={4} className="w-full border rounded p-2" />
       </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium mb-1">Ссылка на медиа (фото/видео)</label>
+          <input name="mediaUrl" placeholder="https://..." className="w-full border rounded p-2" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Тип медиа</label>
+          <select name="mediaType" className="w-full border rounded p-2">
+            <option value="">Без медиа</option>
+            <option value="IMAGE">Фото</option>
+            <option value="VIDEO">Видео</option>
+          </select>
+        </div>
+      </div>
       <button
         type="submit"
         disabled={loading}
