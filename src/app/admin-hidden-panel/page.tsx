@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import Image from "next/image";
 import { Users, FileText, Settings, ShieldCheck, Mail, Calendar } from "lucide-react";
 
 export default async function AdminPage() {
@@ -27,12 +28,16 @@ export default async function AdminPage() {
       <div className="bg-blue-900 text-white py-12 mb-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div>
-              <h1 className="text-4xl font-black mb-2 flex items-center gap-3">
-                <ShieldCheck className="w-10 h-10 text-yellow-400" />
-                Центр Управления
-              </h1>
-              <p className="text-blue-200">Администрирование АНО ЦДО «ОРИОН»</p>
+            <div className="flex items-center gap-6">
+              <div className="bg-white p-2 rounded-2xl shadow-xl">
+                <Image src="/logo.png" alt="ОРИОН" width={60} height={60} className="object-contain" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-black mb-2 flex items-center gap-3">
+                  Центр Управления
+                </h1>
+                <p className="text-blue-200">Администрирование АНО ЦДО «ОРИОН»</p>
+              </div>
             </div>
             <div className="flex gap-4">
               <Link

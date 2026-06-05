@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import ScheduleEditor from "./ScheduleEditor";
 import NightStayButton from "./NightStayButton";
+import Image from "next/image";
 import { Calendar, Info, Users, Clock, ShieldCheck, MapPin, Mail, Moon } from "lucide-react";
 
 export default async function DashboardPage() {
@@ -235,7 +236,9 @@ export default async function DashboardPage() {
 
           <section className="bg-white p-10 rounded-[3rem] shadow-xl shadow-blue-900/5 border border-gray-100">
             <h2 className="text-3xl font-black mb-10 text-blue-900 flex items-center gap-4">
-              <ShieldCheck className="w-10 h-10 text-blue-600" />
+              <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center p-1">
+                <Image src="/logo.png" alt="ОРИОН" width={32} height={32} className="object-contain" />
+              </div>
               Ваши группы
             </h2>
             {user.managedGroups.length === 0 ? (
@@ -323,8 +326,8 @@ export default async function DashboardPage() {
 
       {user.role === "ADMIN" && (
         <div className="bg-blue-900/5 p-16 rounded-[4rem] border-4 border-dashed border-blue-900/10 text-center">
-          <div className="bg-blue-900 w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl rotate-3">
-            <ShieldCheck className="w-12 h-12 text-yellow-400" />
+          <div className="bg-white w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl rotate-3 overflow-hidden p-2">
+            <Image src="/logo.png" alt="ОРИОН" width={80} height={80} className="object-contain" />
           </div>
           <p className="text-3xl font-black mb-2 text-blue-900">Административный доступ</p>
           <p className="text-blue-600 font-medium mb-10 uppercase tracking-widest text-sm">Вы вошли как главный администратор системы</p>

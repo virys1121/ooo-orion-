@@ -64,6 +64,9 @@ model Application {
   email           String
   about           String
   childGender     String
+  type            String   @default("ENROLLMENT") // ENROLLMENT, NIGHT_STAY
+  stayDates       String?  // For night stay requests
+  groupId         String?  // For teacher visibility
   status          String   @default("PENDING") // PENDING, APPROVED, REJECTED
 
   createdAt       DateTime @default(now())

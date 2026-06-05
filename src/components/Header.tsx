@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Shield, Info, ClipboardList, LogIn, LayoutDashboard, LogOut } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -11,8 +12,8 @@ export default async function Header() {
     <header className="bg-blue-900 text-white sticky top-0 z-50 shadow-2xl">
       <div className="container mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
         <Link href="/" className="flex items-center space-x-3 group">
-          <div className="bg-yellow-400 p-2 rounded-lg group-hover:rotate-12 transition-transform">
-            <Shield className="w-8 h-8 text-blue-900" />
+          <div className="bg-white p-1 rounded-lg group-hover:rotate-12 transition-transform overflow-hidden">
+            <Image src="/logo.png" alt="ОРИОН" width={40} height={40} className="object-contain" />
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-black tracking-tighter leading-none">ЦДО «ОРИОН»</span>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Award, Users, ShieldCheck, Target } from "lucide-react";
+import { Award, Users, Target } from "lucide-react";
 
 export default function AboutPage() {
   const containerVariants = {
@@ -68,7 +68,7 @@ export default function AboutPage() {
           <h2 className="text-4xl font-black text-center text-blue-900 mb-16 uppercase">Наши достижения</h2>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { icon: ShieldCheck, title: "100% Безопасность", desc: "Ни одного инцидента за всю историю работы центра." },
+              { isLogo: true, title: "100% Безопасность", desc: "Ни одного инцидента за всю историю работы центра." },
               { icon: Award, title: "Лучшие методики", desc: "Авторские программы, одобренные ведущими экспертами." },
               { icon: Users, title: "500+ Выпускников", desc: "Наши дети успешно поступают в лучшие школы страны." },
               { icon: Target, title: "Высшая категория", desc: "Все сотрудники имеют высшую квалификационную категорию." }
@@ -78,7 +78,13 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.05 }}
                 className="bg-white p-8 rounded-3xl shadow-xl text-center border-b-8 border-yellow-400"
               >
-                <stat.icon className="w-12 h-12 text-blue-600 mx-auto mb-6" />
+                {stat.isLogo ? (
+                  <div className="w-16 h-16 mx-auto mb-6 bg-white rounded-xl shadow-sm p-1 border border-gray-100 flex items-center justify-center">
+                    <Image src="/logo.png" alt="ОРИОН" width={48} height={48} className="object-contain" />
+                  </div>
+                ) : stat.icon && (
+                  <stat.icon className="w-12 h-12 text-blue-600 mx-auto mb-6" />
+                )}
                 <h3 className="text-xl font-bold mb-4">{stat.title}</h3>
                 <p className="text-gray-600 text-sm">{stat.desc}</p>
               </motion.div>
