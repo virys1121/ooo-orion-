@@ -2,6 +2,12 @@
 :: Set UTF-8 encoding for the console
 chcp 65001 > nul
 
+:: Create .env if missing
+if not exist .env (
+    echo [!] .env is missing. Creating from .env.example...
+    copy .env.example .env > nul
+)
+
 echo ======================================================
 echo    ORION Kindergarten Website Starter
 echo ======================================================
