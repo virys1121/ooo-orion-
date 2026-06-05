@@ -28,13 +28,13 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative w-full h-[600px] flex items-center justify-center text-white overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2072&auto=format&fit=crop"
-          alt="Kids playing"
+          src="/images/hero-bg.png"
+          alt="ОРИОН"
           fill
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-blue-900/60 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-blue-900/40 backdrop-blur-[1px]" />
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

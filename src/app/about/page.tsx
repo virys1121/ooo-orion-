@@ -106,13 +106,13 @@ export default function AboutPage() {
               {
                 name: "Елена Бигаева",
                 role: "Директор по образованию",
-                img: "https://images.unsplash.com/photo-1544717297-fa154da09f5d?q=80&w=2070&auto=format&fit=crop",
+                img: "/images/bigaeva.png",
                 bio: "Кандидат педагогических наук, автор методик раннего развития."
               },
               {
-                name: "Дмитрий Техников",
+                name: "Алексей Романович Баграмов",
                 role: "Главный инструктор по робототехнике",
-                img: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1974&auto=format&fit=crop",
+                img: "/images/bagramov.png",
                 bio: "Инженер-исследователь, победитель международных конкурсов."
               }
             ].map((person, i) => (
