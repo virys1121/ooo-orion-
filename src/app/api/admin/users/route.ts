@@ -114,8 +114,32 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "User ID is required" }, { status: 400 });
     }
 
-    await prisma.user.delete({
-      where: { id: userId },
+    // Comprehensive cleanup for SQLite FK constraints
+    await prisma.$transaction(async (tx) => {
+      // 1. Delete messages (both sent and received)
+      await tx.message.deleteMany({
+        where: {
+          OR: [
+            { senderId: userId },
+            { receiverId: userId }
+          ]
+        }
+      });
+
+      // 2. Handle children
+      // We need to disconnect the parent from children.
+      // In Prisma, we can do this via update.
+      await tx.user.update({
+        where: { id: userId },
+        data: {
+          children: { set: [] }
+        }
+      });
+
+      // 3. Delete the user
+      await tx.user.delete({
+        where: { id: userId }
+      });
     });
 
     return NextResponse.json({ success: true });
