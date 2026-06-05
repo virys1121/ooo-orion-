@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Use transaction to create user and child/group if needed
-    const user = await prisma.\$transaction(async (tx) => {
+    const user = await prisma.$transaction(async (tx) => {
       const newUser = await tx.user.create({
         data: {
           name,
