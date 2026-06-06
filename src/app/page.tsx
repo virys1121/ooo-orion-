@@ -28,7 +28,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative w-full h-[600px] flex items-center justify-center text-white overflow-hidden">
         <Image
-          src="/images/hero-bg.png"
+          src="/hero.png"
           alt="ОРИОН"
           fill
           className="object-cover"
@@ -89,10 +89,10 @@ export default function Home() {
 
           <motion.div
             variants={itemVariants}
-            className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white"
+            className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-blue-100"
           >
             <Image
-              src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=2070&auto=format&fit=crop"
+              src="/phil.png"
               alt="Security and trust"
               fill
               className="object-cover"
@@ -122,19 +122,19 @@ export default function Home() {
                 title: "Полевая подготовка",
                 desc: "Основы полевой подготовки и прикладного ориентирования для формирования стойкого характера.",
                 icon: "🧭",
-                img: "https://images.unsplash.com/photo-1533224383181-799f923e1e69?q=80&w=1974&auto=format&fit=crop"
+                img: "/feat.png"
               },
               {
                 title: "Робототехника",
                 desc: "Введение в мир технологий с использованием современных обучающих платформ.",
                 icon: "🤖",
-                img: "https://images.unsplash.com/photo-1535378917042-10a22c95931a?q=80&w=2048&auto=format&fit=crop"
+                img: "/feat.png"
               },
               {
                 title: "Патриотизм",
                 desc: "Глубокое изучение истории и ценностей нашей Родины с самого детства.",
                 icon: "🇷🇺",
-                img: "https://images.unsplash.com/photo-1555169062-013468b47731?q=80&w=1974&auto=format&fit=crop"
+                img: "/feat.png"
               }
             ].map((feature, idx) => (
               <motion.div
