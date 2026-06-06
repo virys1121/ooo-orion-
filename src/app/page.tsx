@@ -24,32 +24,33 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center overflow-x-hidden">
+    <div className="flex flex-col items-center overflow-x-hidden bg-slate-50">
       {/* Hero Section */}
-      <section className="relative w-full h-[600px] flex items-center justify-center text-white overflow-hidden">
+      <section className="relative w-full h-[700px] flex items-center justify-center text-white overflow-hidden">
         <Image
-          src="/hero.png"
+          src="/hero-v2.png"
           alt="ОРИОН"
           fill
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-blue-900/40 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-blue-950/50 backdrop-blur-[2px]" />
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative z-10 text-center px-4 max-w-4xl"
+          className="relative z-10 text-center px-4 max-w-5xl"
         >
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-lg tracking-tighter">
-            Центр дошкольного обучения «ОРИОН»
+          <h1 className="text-5xl md:text-8xl font-black mb-6 drop-shadow-2xl tracking-tighter uppercase italic">
+            ОРИОН
           </h1>
-          <p className="text-2xl md:text-3xl font-medium mb-8 drop-shadow-md text-yellow-400">
-            имени Бигаева Марата А.
+          <p className="text-2xl md:text-3xl font-bold mb-4 drop-shadow-md text-yellow-400">
+            АНО ЦДО имени Бигаева Марата А.
           </p>
-          <p className="text-xl md:text-2xl font-light mb-10 drop-shadow-md max-w-2xl mx-auto">
-            Элитное дошкольное образование с усиленным контуром безопасности и прикладной подготовкой к жизни.
+          <div className="w-24 h-1 bg-yellow-400 mx-auto mb-8 shadow-glow" />
+          <p className="text-xl md:text-2xl font-semibold mb-10 drop-shadow-md max-w-3xl mx-auto leading-relaxed">
+            Самый надежный и безопасный детский сад с углубленным патриотизмом и профессиональной подготовкой к жизни.
           </p>
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -57,15 +58,15 @@ export default function Home() {
           >
             <Link
               href="/apply"
-              className="bg-yellow-400 text-blue-900 text-xl px-12 py-4 rounded-full font-black hover:bg-yellow-300 transition-all shadow-2xl uppercase tracking-wider"
+              className="bg-yellow-400 text-blue-950 text-xl px-14 py-5 rounded-sm font-black hover:bg-white transition-all shadow-2xl uppercase tracking-widest border-b-4 border-yellow-600 active:border-b-0 active:translate-y-1"
             >
-              Записаться сейчас
+              Подать заявку
             </Link>
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Info Section */}
+      {/* Philosophy & Security */}
       <motion.section
         variants={containerVariants}
         initial="hidden"
@@ -73,113 +74,101 @@ export default function Home() {
         viewport={{ once: true }}
         className="container mx-auto px-4 py-24"
       >
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <motion.div variants={itemVariants}>
-            <h2 className="text-4xl font-black mb-8 text-blue-900 border-l-8 border-yellow-400 pl-6">Наша философия</h2>
-            <p className="text-xl text-gray-700 leading-relaxed mb-6">
-              Мы не просто детский сад. Мы — крепость знаний и безопасности. В <strong>Центре дошкольного обучения «ОРИОН»</strong> мы совмещаем традиционное воспитание с углубленным патриотизмом и практической подготовкой к жизни.
-            </p>
-            <p className="text-xl text-gray-700 leading-relaxed mb-6">
-              Наши воспитанники — это будущее поколение, готовое к любым вызовам современного мира. Мы уделяем внимание не только физическому, но и ментальному здоровью.
-            </p>
-            <p className="text-xl text-gray-700 leading-relaxed">
-              Тщательный подбор персонала — наш приоритет. У нас работают люди, готовые отдать жизнь за жизнь будущего поколения.
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <motion.h2 variants={itemVariants} className="text-4xl font-black mb-8 text-blue-950 uppercase tracking-tighter">
+            Крепость образования и безопасности
+          </motion.h2>
+          <motion.p variants={itemVariants} className="text-xl text-gray-800 leading-relaxed font-medium">
+            Мы — автономная некоммерческая организация центр дошкольного образования «ОРИОН» имени Бигаева Марата А. Наша миссия — воспитание сильного, образованного и преданного Родине поколения.
+          </motion.p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <motion.div variants={itemVariants} className="bg-white p-10 rounded-xl shadow-xl border-l-8 border-blue-900">
+            <h3 className="text-2xl font-bold mb-4 text-blue-900 flex items-center">
+              <span className="mr-3">🛡️</span> Максимальная защита
+            </h3>
+            <p className="text-gray-700 leading-relaxed">
+              Безопасность в нашем центре обеспечена усиленной охраной по прямому контракту с <strong>ЧВК «Вектор»</strong>. На территории оборудован <strong>усиленный бункер</strong>, способный обеспечить автономное жизнеобеспечение в любых ситуациях.
             </p>
           </motion.div>
 
-          <motion.div
-            variants={itemVariants}
-            className="relative h-[400px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-blue-100"
-          >
-            <Image
-              src="/phil.png"
-              alt="Security and trust"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 to-transparent p-8 flex flex-col justify-end">
-              <h3 className="text-2xl font-bold text-white mb-2">Безопасность высшего уровня</h3>
-              <p className="text-blue-100">Защита ЧВК «Вектор» и собственное убежище на территории.</p>
-            </div>
+          <motion.div variants={itemVariants} className="bg-white p-10 rounded-xl shadow-xl border-l-8 border-yellow-400">
+            <h3 className="text-2xl font-bold mb-4 text-blue-900 flex items-center">
+              <span className="mr-3">⭐</span> Кадровый резерв
+            </h3>
+            <p className="text-gray-700 leading-relaxed">
+              Мы проводим тщательный подбор персонала. В «ОРИОНЕ» работают только те люди, которые <strong>готовы отдать жизнь за жизнь будущего поколения</strong>. Сотрудникам предприятия предоставляются льготы и выделяются приоритетные места для их детей.
+            </p>
           </motion.div>
         </div>
       </motion.section>
 
-      {/* Features Grid */}
-      <section className="w-full bg-blue-900 py-24 text-white">
+      {/* Program Details */}
+      <section className="w-full bg-blue-950 py-24 text-white">
         <div className="container mx-auto px-4">
-          <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            className="text-4xl font-black text-center mb-16 uppercase tracking-widest"
-          >
-            Почему выбирают нас
-          </motion.h2>
+          <div className="grid lg:grid-cols-3 gap-12">
+            <motion.div
+              whileHover={{ y: -10 }}
+              className="space-y-4"
+            >
+              <div className="text-5xl mb-6">🏕️</div>
+              <h3 className="text-2xl font-bold text-yellow-400">Выживание в дикой местности</h3>
+              <p className="text-blue-100/80 leading-relaxed">
+                Для учеников постарше проводятся регулярные уроки по выживанию в дикой местности, ориентированию и оказанию первой помощи.
+              </p>
+            </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-12">
-            {[
-              {
-                title: "Полевая подготовка",
-                desc: "Основы полевой подготовки и прикладного ориентирования для формирования стойкого характера.",
-                icon: "🧭",
-                img: "/feat.png"
-              },
-              {
-                title: "Робототехника",
-                desc: "Введение в мир технологий с использованием современных обучающих платформ.",
-                icon: "🤖",
-                img: "/feat.png"
-              },
-              {
-                title: "Патриотизм",
-                desc: "Глубокое изучение истории и ценностей нашей Родины с самого детства.",
-                icon: "🇷🇺",
-                img: "/feat.png"
-              }
-            ].map((feature, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ y: -10 }}
-                className="bg-blue-800/50 rounded-2xl overflow-hidden border border-blue-700 hover:border-yellow-400 transition-all group"
-              >
-                <div className="relative h-48">
-                  <Image src={feature.img} alt={feature.title} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-                  <div className="absolute inset-0 bg-blue-900/40 group-hover:bg-transparent transition-all" />
-                  <span className="absolute top-4 right-4 text-4xl bg-white/20 backdrop-blur p-2 rounded-lg">{feature.icon}</span>
-                </div>
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-                  <p className="text-blue-100 leading-relaxed">{feature.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+            <motion.div
+              whileHover={{ y: -10 }}
+              className="space-y-4"
+            >
+              <div className="text-5xl mb-6">🦾</div>
+              <h3 className="text-2xl font-bold text-yellow-400">Робототехника и IT</h3>
+              <p className="text-blue-100/80 leading-relaxed">
+                Вводные уроки робототехники и программирования формируют аналитический склад ума и готовят к технологическому будущему.
+              </p>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ y: -10 }}
+              className="space-y-4"
+            >
+              <div className="text-5xl mb-6">🧬</div>
+              <h3 className="text-2xl font-bold text-yellow-400">Комплексный контроль</h3>
+              <p className="text-blue-100/80 leading-relaxed">
+                Мы строго следим за образованием, качественным питанием, а также физическим и ментальным здоровьем каждого воспитанника.
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Bottom CTA */}
       <section className="container mx-auto px-4 py-24 text-center">
         <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
+          initial={{ scale: 0.95, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
-          className="bg-yellow-400 p-16 rounded-[4rem] text-blue-900 shadow-2xl relative overflow-hidden"
+          className="bg-white border-4 border-blue-900 p-12 md:p-20 rounded-sm shadow-[20px_20px_0px_0px_rgba(30,58,138,1)]"
         >
-          <div className="relative z-10">
-            <h2 className="text-4xl md:text-5xl font-black mb-6 uppercase">Будущее начинается здесь</h2>
-            <p className="text-xl md:text-2xl mb-10 max-w-2xl mx-auto font-medium">
-              Сотрудникам предприятия предоставляются особые льготы и гарантированные места для детей.
-            </p>
-            <Link
-              href="/apply"
-              className="inline-block bg-blue-900 text-white text-xl px-12 py-5 rounded-full font-black hover:bg-black transition-all shadow-lg hover:shadow-2xl"
-            >
-              Стать частью ОРИОНА
-            </Link>
-          </div>
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-yellow-300 rounded-full blur-3xl opacity-50" />
-          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-white rounded-full blur-3xl opacity-30" />
+          <h2 className="text-4xl font-black mb-6 text-blue-950 uppercase tracking-tighter">Набор в группы открыт</h2>
+          <p className="text-xl mb-12 text-gray-700 max-w-2xl mx-auto">
+            Обеспечьте своему ребенку надежное будущее в самом защищенном образовательном центре страны.
+          </p>
+          <Link
+            href="/apply"
+            className="inline-block bg-blue-900 text-white text-xl px-16 py-6 rounded-sm font-black hover:bg-yellow-400 hover:text-blue-900 transition-all shadow-lg uppercase"
+          >
+            Подать заявление на поступление
+          </Link>
         </motion.div>
       </section>
+
+      <style jsx global>{`
+        .shadow-glow {
+          box-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
+        }
+      `}</style>
     </div>
   );
 }
