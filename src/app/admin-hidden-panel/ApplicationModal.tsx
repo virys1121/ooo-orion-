@@ -126,11 +126,6 @@ export default function ApplicationModal({ app, onClose }: { app: any; onClose: 
           >
             Закрыть
           </button>
-          <button
-            className="px-8 py-3 bg-blue-900 text-white rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg"
-          >
-            Распечатать анкету
-          </button>
         </div>
       </div>
     </div>

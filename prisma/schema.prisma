@@ -9,49 +9,40 @@ datasource db {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?   // FIO
+  name          String?
   email         String?   @unique
   password      String
-  role          String    @default("PARENT") // ADMIN, TEACHER, PARENT
+  role          String    @default("PARENT")
   workplace     String?
-
-  // Relations
-  children      Child[]   @relation("ParentToChild")
-  managedGroups Group[]   @relation("TeacherToGroup")
-  messagesSent  Message[] @relation("SentMessages")
-
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  messagesSent  Message[] @relation("SentMessages")
+  children      Child[]   @relation("ParentToChild")
+  managedGroups Group[]   @relation("TeacherToGroup")
 }
 
 model Child {
-  id          String   @id @default(cuid())
-  name        String   // FIO
-  gender      String   // MALE, FEMALE
-  schedule    String?  // Weekly schedule text
-
-  // Relations
-  parents     User[]   @relation("ParentToChild")
-  groupId     String?
-  group       Group?   @relation(fields: [groupId], references: [id])
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  name      String
+  gender    String
+  schedule  String?
+  groupId   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  group     Group?   @relation(fields: [groupId], references: [id])
+  parents   User[]   @relation("ParentToChild")
 }
 
 model Group {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  description String?
+  id            String    @id @default(cuid())
+  name          String    @unique
+  description   String?
   groupSchedule String?
-
-  // Relations
-  teachers    User[]   @relation("TeacherToGroup")
-  children    Child[]
-  messages    Message[]
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  children      Child[]
+  messages      Message[]
+  teachers      User[]    @relation("TeacherToGroup")
 }
 
 model Application {
@@ -64,14 +55,10 @@ model Application {
   email           String
   about           String
   childGender     String
-  type            String   @default("ENROLLMENT") // ENROLLMENT, NIGHT_STAY
-  stayDates       String?  // For night stay requests
-  groupId         String?  // For teacher visibility
-  status          String   @default("PENDING") // PENDING, APPROVED, REJECTED
-
-  fileUrl         String?
-  fileName        String?
-
+  type            String   @default("ENROLLMENT")
+  stayDates       String?
+  groupId         String?
+  status          String   @default("PENDING")
   createdAt       DateTime @default(now())
 }
 
@@ -81,25 +68,20 @@ model NewsPost {
   content   String
   authorId  String
   mediaUrl  String?
-  mediaType String?  // 'IMAGE' or 'VIDEO'
-
+  mediaType String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Message {
-  id        String   @id @default(cuid())
-  content   String?
-  fileUrl   String?
-  fileName  String?
-  senderId  String
-  sender    User     @relation("SentMessages", fields: [senderId], references: [id])
-
-  // Chat can be group-based or private
-  groupId   String?
-  group     Group?   @relation(fields: [groupId], references: [id])
-
-  receiverId String? // For private messages between Parent and Teacher
-
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  content    String?
+  fileUrl    String?
+  fileName   String?
+  senderId   String
+  groupId    String?
+  receiverId String?
+  createdAt  DateTime @default(now())
+  group      Group?   @relation(fields: [groupId], references: [id])
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
 }
