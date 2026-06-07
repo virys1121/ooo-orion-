@@ -6,7 +6,9 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
   const [activeRoom, setActiveRoom] = useState(rooms[0] || null);
   const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (activeRoom) {
@@ -36,28 +38,40 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
 
   async function sendMessage(e: React.FormEvent) {
     e.preventDefault();
-    if (!input.trim() || !activeRoom) return;
+    if (!input.trim() && !selectedFile) return;
 
-    const body: any = { content: input };
+    const formData = new FormData();
+    formData.append("content", input);
     if (activeRoom.type === "GROUP") {
-      body.groupId = activeRoom.id;
+      formData.append("groupId", activeRoom.id);
     } else {
-      body.receiverId = activeRoom.id;
+      formData.append("receiverId", activeRoom.id);
+    }
+
+    if (selectedFile) {
+      formData.append("file", selectedFile);
     }
 
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: formData,
       });
 
       if (res.ok) {
         setInput("");
+        setSelectedFile(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
         fetchMessages();
       }
     } catch (e) {}
   }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
 
   if (rooms.length === 0) {
     return <div className="text-center py-20 text-gray-500">У вас пока нет доступных чатов.</div>;
@@ -106,26 +120,64 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
                         : "bg-white text-gray-800 border rounded-tl-none"
                     }`}
                   >
-                    {msg.content}
+                    {msg.content && <p>{msg.content}</p>}
+                    {msg.fileUrl && (
+                      <div className="mt-2 pt-2 border-t border-blue-400/30">
+                        <a
+                          href={msg.fileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center text-sm underline decoration-dotted"
+                        >
+                          <span className="mr-2">📎</span>
+                          {msg.fileName || "Файл"}
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
               <div ref={scrollRef} />
             </div>
-            <form onSubmit={sendMessage} className="p-4 border-t flex bg-white">
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Напишите сообщение..."
-                className="flex-1 border rounded-l-lg p-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-              <button
-                type="submit"
-                className="bg-blue-600 text-white px-6 py-2 rounded-r-lg hover:bg-blue-700 font-semibold"
-              >
-                Отправить
-              </button>
-            </form>
+
+            <div className="bg-white border-t">
+              {selectedFile && (
+                <div className="px-4 py-2 text-sm text-blue-600 bg-blue-50 flex justify-between items-center">
+                  <span>Выбран файл: {selectedFile.name}</span>
+                  <button onClick={() => setSelectedFile(null)} className="text-red-500 font-bold">×</button>
+                </div>
+              )}
+              <form onSubmit={sendMessage} className="p-4 flex items-center gap-2">
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  ref={fileInputRef}
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="p-2 text-gray-500 hover:text-blue-600 transition-colors"
+                  title="Прикрепить файл"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.414a4 4 0 00-5.656-5.656l-6.415 6.414a6 6 0 108.486 8.486L20.5 13" />
+                  </svg>
+                </button>
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Напишите сообщение..."
+                  className="flex-1 border rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                />
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 font-semibold transition-colors"
+                >
+                  Отправить
+                </button>
+              </form>
+            </div>
           </>
         ) : (
           <div className="flex-1 flex items-center justify-center text-gray-400">

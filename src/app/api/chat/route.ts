@@ -2,15 +2,15 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { writeFile, mkdir } from "fs/promises";
+import { join } from "path";
+import { existsSync } from "fs";
 
 // Helper function to check if user has access to a room
 async function checkAccess(userId: string, role: string, roomId: string, isPrivate: boolean) {
   if (role === 'ADMIN') return true;
 
   if (isPrivate) {
-    // In private chat, roomId is the other user's ID
-    // Logic: A parent can chat with any teacher of their child's group
-    // A teacher can chat with any parent of a child in their managed group
     if (role === 'PARENT') {
       const teacher = await prisma.user.findFirst({
         where: {
@@ -149,24 +149,61 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
-    const { content, groupId, receiverId } = body;
-
-    if (!content || (!groupId && !receiverId)) {
-      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
-    }
-
+    const contentType = req.headers.get("content-type") || "";
     const userId = (session.user as any).id;
     const role = (session.user as any).role;
 
-    const hasAccess = await checkAccess(userId, role, (groupId || receiverId)!, !!receiverId);
+    let content = "";
+    let groupId = null;
+    let receiverId = null;
+    let fileUrl = null;
+    let fileName = null;
+
+    if (contentType.includes("multipart/form-data")) {
+      const formData = await req.formData();
+      content = formData.get("content") as string;
+      groupId = formData.get("groupId") as string;
+      receiverId = formData.get("receiverId") as string;
+      const file = formData.get("file") as File;
+
+      if (file && file.size > 0) {
+        const bytes = await file.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+
+        const uploadsDir = join(process.cwd(), "public", "uploads");
+        if (!existsSync(uploadsDir)) {
+          await mkdir(uploadsDir, { recursive: true });
+        }
+
+        const uniqueName = `${Date.now()}-${file.name}`;
+        const path = join(uploadsDir, uniqueName);
+        await writeFile(path, buffer);
+
+        fileUrl = `/uploads/${uniqueName}`;
+        fileName = file.name;
+      }
+    } else {
+      const body = await req.json();
+      content = body.content;
+      groupId = body.groupId;
+      receiverId = body.receiverId;
+    }
+
+    if (!content && !fileUrl) {
+      return NextResponse.json({ error: "Empty message" }, { status: 400 });
+    }
+
+    const targetId = (groupId || receiverId) as string;
+    const hasAccess = await checkAccess(userId, role, targetId, !!receiverId);
     if (!hasAccess) {
       return NextResponse.json({ error: "Forbidden: Cannot send messages to this room" }, { status: 403 });
     }
 
     const message = await prisma.message.create({
       data: {
-        content,
+        content: content || null,
+        fileUrl,
+        fileName,
         groupId: groupId || null,
         receiverId: receiverId || null,
         senderId: userId,

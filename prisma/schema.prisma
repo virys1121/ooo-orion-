@@ -69,6 +69,9 @@ model Application {
   groupId         String?  // For teacher visibility
   status          String   @default("PENDING") // PENDING, APPROVED, REJECTED
 
+  fileUrl         String?
+  fileName        String?
+
   createdAt       DateTime @default(now())
 }
 
@@ -86,7 +89,9 @@ model NewsPost {
 
 model Message {
   id        String   @id @default(cuid())
-  content   String
+  content   String?
+  fileUrl   String?
+  fileName  String?
   senderId  String
   sender    User     @relation("SentMessages", fields: [senderId], references: [id])
 
