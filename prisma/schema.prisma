@@ -59,6 +59,8 @@ model Application {
   stayDates       String?
   groupId         String?
   status          String   @default("PENDING")
+  fileUrl         String?
+  fileName        String?
   createdAt       DateTime @default(now())
 }
 

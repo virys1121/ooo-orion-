@@ -34,10 +34,18 @@ export default function ApplyPage() {
         method: "POST",
         body: data,
       });
-      if (res.ok) setStatus("success");
-      else setStatus("error");
-    } catch {
+      if (res.ok) {
+        setStatus("success");
+      } else {
+        const errorData = await res.json();
+        console.error("Submission error:", errorData);
+        setStatus("error");
+        alert("Произошла ошибка при отправке: " + (errorData.error || "Неизвестная ошибка"));
+      }
+    } catch (err) {
+      console.error("Submission exception:", err);
       setStatus("error");
+      alert("Произошла системная ошибка. Пожалуйста, попробуйте позже.");
     }
   };
 
