@@ -80,12 +80,12 @@ export default function ApplyPage() {
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100"
+          className="bg-white rounded-[3rem] shadow-2xl overflow-hidden border-4 border-blue-900"
         >
           <div className="bg-blue-900 p-12 text-white relative overflow-hidden">
             <div className="relative z-10">
-              <h1 className="text-4xl font-black mb-4">Подача заявления</h1>
-              <p className="text-blue-100 text-lg">Заполните форму для рассмотрения кандидатуры вашего ребенка на поступление в АНО ЦДО «ОРИОН».</p>
+              <h1 className="text-4xl font-black mb-4 uppercase tracking-tighter">Подача заявления</h1>
+              <p className="text-blue-100 text-lg font-medium">Заполните форму для рассмотрения кандидатуры вашего ребенка на поступление в АНО ЦДО «ОРИОН».</p>
             </div>
             <ShieldIcon className="absolute -right-12 -bottom-12 w-64 h-64 text-white/5 rotate-12" />
           </div>
@@ -181,14 +181,14 @@ export default function ApplyPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="flex items-center space-x-2 text-sm font-bold text-blue-900 uppercase tracking-wider">
+              <label className="flex items-center space-x-2 text-sm font-black text-blue-900 uppercase tracking-widest">
                 <MessageSquare className="w-4 h-4" />
                 <span>О себе и ребенке</span>
               </label>
               <textarea
                 required
                 rows={4}
-                className="input-field resize-none"
+                className="input-field resize-none min-h-[150px]"
                 placeholder="Расскажите о достижениях, особенностях или пожеланиях..."
                 value={formData.about}
                 onChange={(e) => setFormData({ ...formData, about: e.target.value })}
@@ -197,7 +197,7 @@ export default function ApplyPage() {
 
             <div className="grid md:grid-cols-2 gap-8 items-end">
               <div className="space-y-4">
-                <label className="block text-sm font-bold text-blue-900 uppercase tracking-wider">Пол ребенка</label>
+                <label className="block text-sm font-black text-blue-900 uppercase tracking-widest">Пол ребенка</label>
                 <div className="flex space-x-6">
                   {["male", "female"].map((g) => (
                     <label key={g} className="flex items-center space-x-3 cursor-pointer group">

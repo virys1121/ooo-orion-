@@ -15,19 +15,19 @@ body {
 
 @layer components {
   .btn-primary {
-    @apply bg-blue-900 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-800 transition-all shadow-md;
+    @apply bg-blue-900 text-white px-8 py-4 rounded-xl font-black uppercase tracking-widest hover:bg-blue-800 transition-all shadow-xl active:scale-95 disabled:opacity-50;
   }
 
   .btn-secondary {
-    @apply bg-yellow-400 text-blue-900 px-6 py-3 rounded-lg font-bold hover:bg-yellow-300 transition-all shadow-md;
+    @apply bg-yellow-400 text-blue-900 px-8 py-4 rounded-xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl active:scale-95 disabled:opacity-50;
   }
 
   .card {
-    @apply bg-white p-8 rounded-2xl shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow;
+    @apply bg-white p-10 rounded-[2.5rem] shadow-2xl shadow-blue-900/5 border border-gray-100 hover:shadow-blue-900/10 transition-shadow;
   }
 
   .input-field {
-    @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all;
+    @apply w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none transition-all font-medium;
   }
 
   .section-title {

@@ -96,9 +96,13 @@ export default async function ChatPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 h-[calc(100vh-160px)]">
-      <h1 className="text-2xl font-bold mb-6">Чат</h1>
-      <ChatInterface user={user} rooms={chatRooms} />
+    <div className="container mx-auto px-4 py-12 min-h-[calc(100vh-160px)]">
+      <h1 className="text-4xl font-black mb-10 text-blue-900 uppercase tracking-tighter">
+        Центр связи <span className="text-yellow-500">«Диалог»</span>
+      </h1>
+      <div className="h-[700px]">
+        <ChatInterface user={user} rooms={chatRooms} />
+      </div>
     </div>
   );
 }

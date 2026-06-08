@@ -72,8 +72,8 @@ export default async function DashboardPage() {
       {user.role === "PARENT" && (
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <section className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-blue-900/5 border border-gray-100">
-              <h2 className="text-2xl font-black mb-6 text-blue-900 flex items-center gap-3">
+            <section className="bg-white p-10 rounded-[3rem] shadow-2xl border-4 border-blue-900/5">
+              <h2 className="text-3xl font-black mb-8 text-blue-900 flex items-center gap-4 uppercase tracking-tighter">
                 <Users className="w-8 h-8 text-blue-600" />
                 Ваши дети
               </h2>
@@ -168,8 +168,8 @@ export default async function DashboardPage() {
           </div>
 
           <aside className="space-y-8">
-            <section className="bg-blue-900 text-white p-8 rounded-[2.5rem] shadow-2xl shadow-blue-900/20">
-              <h2 className="text-xl font-black mb-6 flex items-center gap-2">
+            <section className="bg-blue-900 text-white p-10 rounded-[3rem] shadow-2xl shadow-blue-900/20">
+              <h2 className="text-2xl font-black mb-8 flex items-center gap-3 uppercase tracking-tight">
                 <Info className="w-6 h-6 text-yellow-400" />
                 Инфо-центр
               </h2>
@@ -198,8 +198,8 @@ export default async function DashboardPage() {
               </div>
             </section>
 
-            <section className="bg-gray-900 text-white p-8 rounded-[2.5rem] border border-gray-800">
-                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-4">Служба поддержки</p>
+            <section className="bg-gray-900 text-white p-8 rounded-[3rem] border-4 border-blue-900">
+                <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em] mb-4">Линия экстренной связи</p>
                 <p className="text-2xl font-black mb-1">+7 (999) 123-45-67</p>
                 <p className="text-gray-400 text-sm">Для экстренной связи с дежурным администратором</p>
             </section>

@@ -62,10 +62,10 @@ export default function AdminDashboardClient({ applications, stats }: { applicat
       </div>
 
       <div className="container mx-auto px-4 pb-24">
-        <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-gray-100">
-          <div className="p-8 border-b border-gray-100 flex justify-between items-center">
-            <h2 className="text-2xl font-black text-blue-900 flex items-center gap-2">
-              <Mail className="w-6 h-6" />
+        <div className="bg-white rounded-[3rem] shadow-2xl overflow-hidden border-4 border-blue-900">
+          <div className="p-10 border-b-4 border-blue-900 flex justify-between items-center bg-blue-50/30">
+            <h2 className="text-3xl font-black text-blue-900 flex items-center gap-3 uppercase tracking-tighter">
+              <Mail className="w-8 h-8" />
               Входящие заявления
             </h2>
             <span className="bg-blue-100 text-blue-900 px-4 py-1 rounded-full text-sm font-bold">

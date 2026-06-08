@@ -74,35 +74,52 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
   };
 
   if (rooms.length === 0) {
-    return <div className="text-center py-20 text-gray-500">У вас пока нет доступных чатов.</div>;
+    return (
+      <div className="flex flex-col items-center justify-center h-full border-4 border-blue-900 rounded-[3rem] bg-white shadow-2xl p-20 text-center">
+        <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+        </div>
+        <div className="text-2xl font-black text-blue-900 uppercase tracking-tighter mb-2">Каналы связи пусты</div>
+        <p className="text-gray-500 max-w-sm font-medium">У вас пока нет активных секторов общения. Обратитесь к администратору для привязки к группе.</p>
+      </div>
+    );
   }
 
   return (
-    <div className="flex h-full border rounded-xl overflow-hidden bg-white shadow-lg">
+    <div className="flex h-full border-4 border-blue-900 rounded-[3rem] overflow-hidden bg-white shadow-2xl">
       {/* Sidebar */}
-      <div className="w-1/3 border-r bg-gray-50">
-        <div className="p-4 border-b font-semibold text-gray-700">Комнаты</div>
-        <div className="overflow-y-auto">
+      <div className="w-1/3 border-r-4 border-blue-900 bg-blue-50/30">
+        <div className="p-6 border-b-4 border-blue-900 font-black text-blue-900 uppercase text-xs tracking-widest bg-blue-100">
+          Секторы связи
+        </div>
+        <div className="overflow-y-auto h-[calc(100%-76px)]">
           {rooms.map((room) => (
             <button
               key={room.id}
               onClick={() => setActiveRoom(room)}
-              className={`w-full text-left p-4 hover:bg-gray-100 transition-colors ${
-                activeRoom?.id === room.id ? "bg-blue-50 border-r-4 border-blue-500" : ""
+              className={`w-full text-left p-6 transition-all duration-200 border-b border-blue-100 ${
+                activeRoom?.id === room.id
+                ? "bg-blue-900 text-white"
+                : "hover:bg-blue-100 text-blue-900"
               }`}
             >
-              <div className="font-medium text-sm">{room.name}</div>
+              <div className="font-black uppercase text-sm tracking-tight">{room.name}</div>
             </button>
           ))}
         </div>
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col bg-gray-50">
         {activeRoom ? (
           <>
-            <div className="p-4 border-b font-bold bg-white">{activeRoom.name}</div>
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+            <div className="p-6 border-b-4 border-blue-900 font-black bg-white text-blue-900 uppercase tracking-tight flex items-center">
+              <span className="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse"></span>
+              {activeRoom.name}
+            </div>
+            <div className="flex-1 overflow-y-auto p-8 space-y-6">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
@@ -110,14 +127,14 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
                     msg.senderId === user.id ? "items-end" : "items-start"
                   }`}
                 >
-                  <div className="text-[10px] text-gray-400 mb-1 px-2">
+                  <div className="text-[10px] font-bold text-blue-900/40 mb-2 px-2 uppercase tracking-widest">
                     {msg.sender.name} • {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
                   <div
-                    className={`max-w-[80%] px-4 py-2 rounded-2xl shadow-sm ${
+                    className={`max-w-[80%] px-6 py-4 rounded-[2rem] shadow-md border-2 ${
                       msg.senderId === user.id
-                        ? "bg-blue-600 text-white rounded-tr-none"
-                        : "bg-white text-gray-800 border rounded-tl-none"
+                        ? "bg-blue-900 text-white border-blue-900 rounded-tr-none"
+                        : "bg-white text-blue-900 border-blue-900/10 rounded-tl-none"
                     }`}
                   >
                     {msg.content && <p>{msg.content}</p>}
@@ -167,12 +184,12 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Напишите сообщение..."
-                  className="flex-1 border rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  placeholder="Введите сообщение оперативной связи..."
+                  className="flex-1 border-2 border-blue-900/10 rounded-2xl p-4 focus:outline-none focus:border-blue-900 transition-all font-medium"
                 />
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 font-semibold transition-colors"
+                  className="bg-blue-900 text-white px-8 py-4 rounded-2xl hover:bg-black font-black uppercase text-sm tracking-widest transition-all active:scale-95 shadow-lg"
                 >
                   Отправить
                 </button>

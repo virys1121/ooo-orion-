@@ -21,39 +21,44 @@ export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative h-[400px] flex items-center justify-center text-white">
-        <Image
-          src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2040&auto=format&fit=crop"
-          alt="Modern kindergarten building"
-          fill
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-blue-900/70" />
-        <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl font-black mb-4">О нас</h1>
-          <p className="text-xl max-w-2xl mx-auto font-medium">
-            Центр дошкольного обучения «ОРИОН» — это место, где безопасность встречается с передовым образованием.
+      <div className="bg-blue-900 text-white py-24 mb-12 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <Image
+            src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2040&auto=format&fit=crop"
+            alt="Background"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <h1 className="text-6xl font-black mb-6 uppercase tracking-tighter italic">О центре</h1>
+          <p className="text-blue-200 text-xl max-w-3xl mx-auto font-medium">
+            Центр дошкольного обучения «ОРИОН» — это место, где безопасность встречается с передовым образованием для будущих лидеров.
           </p>
         </div>
-      </section>
+      </div>
 
       {/* Main Content */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
+      <section className="container mx-auto px-4 py-20 max-w-6xl">
+        <div className="grid lg:grid-cols-2 gap-20 items-center mb-40">
           <motion.div
             initial={{ x: -50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
+            className="space-y-8"
           >
-            <h2 className="text-4xl font-black text-blue-900 mb-8 border-l-8 border-yellow-400 pl-6 uppercase">Наша история</h2>
-            <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              Центр дошкольного образования «ОРИОН» был основан с целью создания максимально защищенной и стимулирующей среды для развития детей. Мы носим имя Бигаева Марата А., человека, чьи принципы чести и преданности делу лежат в основе нашей философии.
+            <div className="bg-yellow-400 text-blue-950 inline-block px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-xl">
+              Наследие
+            </div>
+            <h2 className="text-5xl font-black text-blue-900 uppercase tracking-tighter leading-none">Наша история</h2>
+            <p className="text-xl text-gray-600 leading-relaxed font-medium">
+              Центр дошкольного образования «ОРИОН» был основан с целью создания максимально защищенной и стимулирующей среды. Мы носим имя <strong className="text-blue-900">Бигаева Марата А.</strong>, человека, чьи принципы чести и преданности делу лежат в основе нашей философии.
             </p>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              За годы работы мы превратились из экспериментальной площадки в эталонный образовательный центр, где каждый ребенок получает не только знания, но и важные жизненные навыки, необходимые в 21 веке.
+            <p className="text-xl text-gray-600 leading-relaxed font-medium">
+              За годы работы мы превратились в эталонный образовательный центр, где каждый ребенок получает не только знания, но и важные жизненные навыки, необходимые в 21 веке.
             </p>
           </motion.div>
-          <div className="relative h-[450px] rounded-[3rem] overflow-hidden shadow-2xl">
+          <div className="relative h-[550px] rounded-[4rem] overflow-hidden shadow-[30px_30px_0px_0px_rgba(30,58,138,0.1)] border-8 border-white">
             <Image
               src="https://images.unsplash.com/photo-1491333078588-55b6733c7de6?q=80&w=2070&auto=format&fit=crop"
               alt="Professional staff"

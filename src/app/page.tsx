@@ -24,43 +24,57 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center overflow-x-hidden bg-slate-50">
+    <div className="flex flex-col items-center overflow-x-hidden bg-gray-50">
       {/* Hero Section */}
-      <section className="relative w-full h-[700px] flex items-center justify-center text-white overflow-hidden">
+      <section className="relative w-full h-[85vh] flex items-center justify-center text-white overflow-hidden">
         <Image
           src="/hero-v2.png"
           alt="ОРИОН"
           fill
-          className="object-cover"
+          className="object-cover scale-110"
           priority
         />
-        <div className="absolute inset-0 bg-blue-950/50 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-blue-950/60 backdrop-blur-[4px]" />
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative z-10 text-center px-4 max-w-5xl"
+          className="relative z-10 text-center px-4 max-w-6xl"
         >
-          <h1 className="text-5xl md:text-8xl font-black mb-6 drop-shadow-2xl tracking-tighter uppercase italic">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="mb-8"
+          >
+            <Image src="/logo-orion.png" alt="Logo" width={120} height={120} className="mx-auto bg-white p-4 rounded-[2.5rem] shadow-2xl" />
+          </motion.div>
+          <h1 className="text-6xl md:text-9xl font-black mb-4 drop-shadow-2xl tracking-tighter uppercase italic leading-none">
             ОРИОН
           </h1>
-          <p className="text-2xl md:text-3xl font-bold mb-4 drop-shadow-md text-yellow-400">
-            АНО ЦДО имени Бигаева Марата А.
+          <p className="text-2xl md:text-3xl font-black mb-8 drop-shadow-md text-yellow-400 uppercase tracking-[0.2em]">
+            имени Бигаева Марата А.
           </p>
-          <div className="w-24 h-1 bg-yellow-400 mx-auto mb-8 shadow-glow" />
-          <p className="text-xl md:text-2xl font-semibold mb-10 drop-shadow-md max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-3xl font-bold mb-12 drop-shadow-md max-w-4xl mx-auto leading-relaxed opacity-90">
             Самый надежный и безопасный детский сад с углубленным патриотизмом и профессиональной подготовкой к жизни.
           </p>
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            className="flex flex-wrap justify-center gap-6"
           >
             <Link
               href="/apply"
-              className="bg-yellow-400 text-blue-950 text-xl px-14 py-5 rounded-sm font-black hover:bg-white transition-all shadow-2xl uppercase tracking-widest border-b-4 border-yellow-600 active:border-b-0 active:translate-y-1"
+              className="bg-yellow-400 text-blue-950 text-xl px-16 py-6 rounded-2xl font-black hover:bg-white transition-all shadow-2xl uppercase tracking-widest border-b-4 border-yellow-600 active:border-b-0 active:translate-y-1"
             >
               Подать заявку
+            </Link>
+            <Link
+              href="/about"
+              className="bg-white/10 backdrop-blur-md text-white text-xl px-16 py-6 rounded-2xl font-black hover:bg-white/20 transition-all shadow-2xl uppercase tracking-widest border border-white/20"
+            >
+              О центре
             </Link>
           </motion.div>
         </motion.div>
@@ -72,33 +86,38 @@ export default function Home() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="container mx-auto px-4 py-24"
+        className="container mx-auto px-4 py-32"
       >
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <motion.h2 variants={itemVariants} className="text-4xl font-black mb-8 text-blue-950 uppercase tracking-tighter">
-            Крепость образования и безопасности
+        <div className="max-w-5xl mx-auto text-center mb-24">
+          <motion.div variants={itemVariants} className="bg-blue-900 text-white inline-block px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6 shadow-xl">
+            Наши ценности
+          </motion.div>
+          <motion.h2 variants={itemVariants} className="text-5xl md:text-7xl font-black mb-10 text-blue-900 uppercase tracking-tighter leading-none">
+            Крепость образования <br /> и безопасности
           </motion.h2>
-          <motion.p variants={itemVariants} className="text-xl text-gray-800 leading-relaxed font-medium">
-            Мы — автономная некоммерческая организация центр дошкольного образования «ОРИОН» имени Бигаева Марата А. Наша миссия — воспитание сильного, образованного и преданного Родине поколения.
+          <motion.p variants={itemVariants} className="text-2xl text-gray-600 leading-relaxed font-medium max-w-4xl mx-auto">
+            Мы — автономная некоммерческая организация центр дошкольного образования «ОРИОН». Наша миссия — воспитание сильного и преданного Родине поколения.
           </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          <motion.div variants={itemVariants} className="bg-white p-10 rounded-xl shadow-xl border-l-8 border-blue-900">
-            <h3 className="text-2xl font-bold mb-4 text-blue-900 flex items-center">
-              <span className="mr-3">🛡️</span> Максимальная защита
+        <div className="grid md:grid-cols-2 gap-12">
+          <motion.div variants={itemVariants} className="bg-white p-12 rounded-[3rem] shadow-2xl shadow-blue-900/10 border border-gray-100 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-900/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+            <h3 className="text-3xl font-black mb-6 text-blue-900 flex items-center gap-4">
+              <span className="bg-blue-100 p-3 rounded-2xl">🛡️</span> Максимальная защита
             </h3>
-            <p className="text-gray-700 leading-relaxed">
-              Безопасность в нашем центре обеспечена усиленной охраной по прямому контракту с <strong>ЧВК «Вектор»</strong>. На территории оборудован <strong>усиленный бункер</strong>, способный обеспечить автономное жизнеобеспечение в любых ситуациях.
+            <p className="text-gray-600 leading-relaxed text-lg font-medium">
+              Безопасность обеспечена усиленной охраной по контракту с <strong className="text-blue-900">ЧВК «Вектор»</strong>. На территории оборудован <strong className="text-blue-900">усиленный бункер</strong> для автономного жизнеобеспечения.
             </p>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="bg-white p-10 rounded-xl shadow-xl border-l-8 border-yellow-400">
-            <h3 className="text-2xl font-bold mb-4 text-blue-900 flex items-center">
-              <span className="mr-3">⭐</span> Кадровый резерв
+          <motion.div variants={itemVariants} className="bg-white p-12 rounded-[3rem] shadow-2xl shadow-blue-900/10 border border-gray-100 relative overflow-hidden group">
+             <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+            <h3 className="text-3xl font-black mb-6 text-blue-900 flex items-center gap-4">
+              <span className="bg-yellow-100 p-3 rounded-2xl">⭐</span> Кадровый резерв
             </h3>
-            <p className="text-gray-700 leading-relaxed">
-              Мы проводим тщательный подбор персонала. В «ОРИОНЕ» работают только те люди, которые <strong>готовы отдать жизнь за жизнь будущего поколения</strong>. Сотрудникам предприятия предоставляются льготы и выделяются приоритетные места для их детей.
+            <p className="text-gray-600 leading-relaxed text-lg font-medium">
+              Тщательный подбор персонала. У нас работают только те, кто <strong className="text-blue-900">готов отдать жизнь за будущее поколения</strong>. Сотрудникам предоставляются особые льготы.
             </p>
           </motion.div>
         </div>
