@@ -16,7 +16,7 @@ export default function ApplyPage() {
     about: "",
     gender: "male",
   });
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,9 +25,9 @@ export default function ApplyPage() {
 
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => data.append(key, value));
-    if (selectedFile) {
-      data.append("file", selectedFile);
-    }
+    selectedFiles.forEach(file => {
+      data.append("files", file);
+    });
 
     try {
       const res = await fetch("/api/apply", {
@@ -50,9 +50,14 @@ export default function ApplyPage() {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+      setSelectedFiles(prev => [...prev, ...newFiles]);
     }
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   if (status === "success") {
@@ -217,13 +222,14 @@ export default function ApplyPage() {
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-4">
                 <label className="block text-sm font-bold text-blue-900 uppercase tracking-wider">Прикрепить документы</label>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center gap-4">
                   <input
                     type="file"
                     ref={fileInputRef}
                     onChange={handleFileChange}
+                    multiple
                     className="hidden"
                   />
                   <button
@@ -232,16 +238,18 @@ export default function ApplyPage() {
                     className="flex items-center gap-2 px-4 py-2 border-2 border-dashed border-blue-200 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors"
                   >
                     <Paperclip className="w-5 h-5" />
-                    <span>{selectedFile ? "Изменить файл" : "Выбрать файл"}</span>
+                    <span>Выбрать файлы</span>
                   </button>
-                  {selectedFile && (
-                    <div className="flex items-center gap-2 bg-blue-100 px-3 py-1.5 rounded-full text-sm text-blue-800">
-                      <span className="max-w-[150px] truncate">{selectedFile.name}</span>
-                      <button onClick={() => setSelectedFile(null)} className="text-blue-400 hover:text-red-500">
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  )}
+                  <div className="flex flex-wrap gap-2">
+                    {selectedFiles.map((file, index) => (
+                      <div key={index} className="flex items-center gap-2 bg-blue-100 px-3 py-1.5 rounded-full text-sm text-blue-800">
+                        <span className="max-w-[150px] truncate">{file.name}</span>
+                        <button type="button" onClick={() => removeFile(index)} className="text-blue-400 hover:text-red-500">
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

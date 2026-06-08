@@ -88,34 +88,61 @@ export default function ApplicationModal({ app, onClose }: { app: any; onClose: 
           {/* Attached Files */}
           <div>
             <label className="text-[10px] font-black text-blue-900 uppercase tracking-widest block mb-3">Прикрепленные документы</label>
-            {app.fileUrl ? (
-              <div className="flex items-center justify-between bg-white border-2 border-dashed border-blue-200 p-4 rounded-2xl hover:bg-blue-50 transition-colors group">
-                <div className="flex items-center gap-4">
-                  <div className="bg-blue-100 p-3 rounded-xl text-blue-600">
-                    <FileText className="w-6 h-6" />
+            <div className="space-y-3">
+              {(app.media && app.media.length > 0) ? (
+                app.media.map((item: any) => (
+                  <div key={item.id} className="flex items-center justify-between bg-white border-2 border-dashed border-blue-200 p-4 rounded-2xl hover:bg-blue-50 transition-colors group">
+                    <div className="flex items-center gap-4">
+                      <div className="bg-blue-100 p-3 rounded-xl text-blue-600">
+                        <FileText className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-gray-900">{item.name || "Документ"}</p>
+                        <p className="text-xs text-gray-400 uppercase tracking-tighter font-bold mt-1 flex items-center gap-1">
+                          <Paperclip className="w-3 h-3" /> Прикрепленный файл
+                        </p>
+                      </div>
+                    </div>
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-blue-900 text-white px-6 py-2 rounded-xl font-bold hover:bg-yellow-400 hover:text-blue-900 transition-all flex items-center gap-2 shadow-lg"
+                    >
+                      <Download className="w-4 h-4" />
+                      Открыть
+                    </a>
                   </div>
-                  <div>
-                    <p className="font-bold text-gray-900">{app.fileName || "Документ"}</p>
-                    <p className="text-xs text-gray-400 uppercase tracking-tighter font-bold mt-1 flex items-center gap-1">
-                      <Paperclip className="w-3 h-3" /> Прикрепленный файл
-                    </p>
+                ))
+              ) : app.fileUrl ? (
+                <div className="flex items-center justify-between bg-white border-2 border-dashed border-blue-200 p-4 rounded-2xl hover:bg-blue-50 transition-colors group">
+                  <div className="flex items-center gap-4">
+                    <div className="bg-blue-100 p-3 rounded-xl text-blue-600">
+                      <FileText className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-gray-900">{app.fileName || "Документ"}</p>
+                      <p className="text-xs text-gray-400 uppercase tracking-tighter font-bold mt-1 flex items-center gap-1">
+                        <Paperclip className="w-3 h-3" /> Прикрепленный файл
+                      </p>
+                    </div>
                   </div>
+                  <a
+                    href={app.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-blue-900 text-white px-6 py-2 rounded-xl font-bold hover:bg-yellow-400 hover:text-blue-900 transition-all flex items-center gap-2 shadow-lg"
+                  >
+                    <Download className="w-4 h-4" />
+                    Открыть
+                  </a>
                 </div>
-                <a
-                  href={app.fileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-blue-900 text-white px-6 py-2 rounded-xl font-bold hover:bg-yellow-400 hover:text-blue-900 transition-all flex items-center gap-2 shadow-lg"
-                >
-                  <Download className="w-4 h-4" />
-                  Открыть
-                </a>
-              </div>
-            ) : (
-              <div className="text-center py-6 border-2 border-dashed border-gray-100 rounded-2xl text-gray-400 font-medium italic">
-                Файлы не прикреплены.
-              </div>
-            )}
+              ) : (
+                <div className="text-center py-6 border-2 border-dashed border-gray-100 rounded-2xl text-gray-400 font-medium italic">
+                  Файлы не прикреплены.
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

@@ -7,7 +7,7 @@ import { Paperclip, X, FileText } from "lucide-react";
 export default function EventForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -15,9 +15,9 @@ export default function EventForm() {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    if (selectedFile) {
-      formData.append("file", selectedFile);
-    }
+    selectedFiles.forEach(file => {
+      formData.append("files", file);
+    });
 
     try {
       const res = await fetch("/api/events", {
@@ -28,7 +28,7 @@ export default function EventForm() {
       if (res.ok) {
         router.refresh();
         (e.target as HTMLFormElement).reset();
-        setSelectedFile(null);
+        setSelectedFiles([]);
       }
     } catch (error) {
       alert("Ошибка при публикации");
@@ -38,9 +38,14 @@ export default function EventForm() {
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+      setSelectedFiles(prev => [...prev, ...newFiles]);
     }
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -65,13 +70,14 @@ export default function EventForm() {
         />
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-4">
         <label className="block text-xs font-black text-blue-900 uppercase tracking-widest">Прикрепить медиа или документ</label>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <input
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
+            multiple
             className="hidden"
           />
           <button
@@ -80,22 +86,24 @@ export default function EventForm() {
             className="flex items-center gap-3 px-6 py-3 bg-white border-2 border-dashed border-blue-300 rounded-xl text-blue-600 font-bold hover:bg-blue-50 transition-all group"
           >
             <Paperclip className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-            <span>{selectedFile ? "Изменить файл" : "Выбрать файл (фото, видео, док)"}</span>
+            <span>Выбрать файлы</span>
           </button>
 
-          {selectedFile && (
-            <div className="flex items-center gap-3 bg-blue-100 px-4 py-2 rounded-full text-sm font-bold text-blue-800 border border-blue-200 animate-in fade-in zoom-in duration-200">
-              <FileText className="w-4 h-4" />
-              <span className="max-w-[200px] truncate">{selectedFile.name}</span>
-              <button
-                type="button"
-                onClick={() => setSelectedFile(null)}
-                className="text-blue-400 hover:text-red-500 transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          )}
+          <div className="flex flex-wrap gap-3">
+            {selectedFiles.map((file, index) => (
+              <div key={index} className="flex items-center gap-3 bg-blue-100 px-4 py-2 rounded-full text-sm font-bold text-blue-800 border border-blue-200 animate-in fade-in zoom-in duration-200">
+                <FileText className="w-4 h-4" />
+                <span className="max-w-[150px] truncate">{file.name}</span>
+                <button
+                  type="button"
+                  onClick={() => removeFile(index)}
+                  className="text-blue-400 hover:text-red-500 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

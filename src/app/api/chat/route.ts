@@ -110,6 +110,7 @@ export async function GET(req: Request) {
           sender: {
             select: { name: true, id: true },
           },
+          media: true,
         },
         orderBy: { createdAt: "asc" },
       });
@@ -131,6 +132,7 @@ export async function GET(req: Request) {
           sender: {
             select: { name: true, id: true },
           },
+          media: true,
         },
         orderBy: { createdAt: "asc" },
       });
@@ -156,31 +158,34 @@ export async function POST(req: Request) {
     let content = "";
     let groupId = null;
     let receiverId = null;
-    let fileUrl = null;
-    let fileName = null;
+    const uploadedFiles: { url: string; name: string }[] = [];
 
     if (contentType.includes("multipart/form-data")) {
       const formData = await req.formData();
       content = formData.get("content") as string;
       groupId = formData.get("groupId") as string;
       receiverId = formData.get("receiverId") as string;
-      const file = formData.get("file") as File;
+      const files = formData.getAll("files") as File[];
 
-      if (file && file.size > 0) {
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
+      const uploadsDir = join(process.cwd(), "public", "uploads");
+      if (!existsSync(uploadsDir)) {
+        await mkdir(uploadsDir, { recursive: true });
+      }
 
-        const uploadsDir = join(process.cwd(), "public", "uploads");
-        if (!existsSync(uploadsDir)) {
-          await mkdir(uploadsDir, { recursive: true });
+      for (const file of files) {
+        if (file && file.size > 0) {
+          const bytes = await file.arrayBuffer();
+          const buffer = Buffer.from(bytes);
+
+          const uniqueName = `${Date.now()}-${file.name}`;
+          const path = join(uploadsDir, uniqueName);
+          await writeFile(path, buffer);
+
+          uploadedFiles.push({
+            url: `/uploads/${uniqueName}`,
+            name: file.name
+          });
         }
-
-        const uniqueName = `${Date.now()}-${file.name}`;
-        const path = join(uploadsDir, uniqueName);
-        await writeFile(path, buffer);
-
-        fileUrl = `/uploads/${uniqueName}`;
-        fileName = file.name;
       }
     } else {
       const body = await req.json();
@@ -189,7 +194,7 @@ export async function POST(req: Request) {
       receiverId = body.receiverId;
     }
 
-    if (!content && !fileUrl) {
+    if (!content && uploadedFiles.length === 0) {
       return NextResponse.json({ error: "Empty message" }, { status: 400 });
     }
 
@@ -202,16 +207,18 @@ export async function POST(req: Request) {
     const message = await prisma.message.create({
       data: {
         content: content || null,
-        fileUrl,
-        fileName,
         groupId: groupId || null,
         receiverId: receiverId || null,
         senderId: userId,
+        media: {
+          create: uploadedFiles
+        }
       },
       include: {
         sender: {
           select: { name: true, id: true },
         },
+        media: true,
       },
     });
 

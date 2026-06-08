@@ -6,7 +6,7 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
   const [activeRoom, setActiveRoom] = useState(rooms[0] || null);
   const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState("");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -38,7 +38,7 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
 
   async function sendMessage(e: React.FormEvent) {
     e.preventDefault();
-    if (!input.trim() && !selectedFile) return;
+    if (!input.trim() && selectedFiles.length === 0) return;
 
     const formData = new FormData();
     formData.append("content", input);
@@ -48,9 +48,9 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
       formData.append("receiverId", activeRoom.id);
     }
 
-    if (selectedFile) {
-      formData.append("file", selectedFile);
-    }
+    selectedFiles.forEach(file => {
+      formData.append("files", file);
+    });
 
     try {
       const res = await fetch("/api/chat", {
@@ -60,7 +60,7 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
 
       if (res.ok) {
         setInput("");
-        setSelectedFile(null);
+        setSelectedFiles([]);
         if (fileInputRef.current) fileInputRef.current.value = "";
         fetchMessages();
       }
@@ -68,9 +68,14 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+      setSelectedFiles(prev => [...prev, ...newFiles]);
     }
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   if (rooms.length === 0) {
@@ -138,17 +143,20 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
                     }`}
                   >
                     {msg.content && <p>{msg.content}</p>}
-                    {msg.fileUrl && (
-                      <div className="mt-2 pt-2 border-t border-blue-400/30">
-                        <a
-                          href={msg.fileUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center text-sm underline decoration-dotted"
-                        >
-                          <span className="mr-2">📎</span>
-                          {msg.fileName || "Файл"}
-                        </a>
+                    {msg.media && msg.media.length > 0 && (
+                      <div className={`mt-2 pt-2 border-t ${msg.senderId === user.id ? 'border-blue-400/30' : 'border-gray-100'} space-y-2`}>
+                        {msg.media.map((item: any) => (
+                          <a
+                            key={item.id}
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center text-sm underline decoration-dotted hover:opacity-80 transition-opacity"
+                          >
+                            <span className="mr-2">📎</span>
+                            {item.name || "Файл"}
+                          </a>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -158,16 +166,21 @@ export default function ChatInterface({ user, rooms }: { user: any; rooms: any[]
             </div>
 
             <div className="bg-white border-t">
-              {selectedFile && (
-                <div className="px-4 py-2 text-sm text-blue-600 bg-blue-50 flex justify-between items-center">
-                  <span>Выбран файл: {selectedFile.name}</span>
-                  <button onClick={() => setSelectedFile(null)} className="text-red-500 font-bold">×</button>
+              {selectedFiles.length > 0 && (
+                <div className="px-4 py-2 flex flex-wrap gap-2 text-sm text-blue-600 bg-blue-50">
+                  {selectedFiles.map((file, index) => (
+                    <div key={index} className="flex items-center gap-1 bg-white px-2 py-1 rounded-full border border-blue-200">
+                      <span className="max-w-[100px] truncate">{file.name}</span>
+                      <button type="button" onClick={() => removeFile(index)} className="text-red-500 font-bold ml-1 hover:text-red-700">×</button>
+                    </div>
+                  ))}
                 </div>
               )}
               <form onSubmit={sendMessage} className="p-4 flex items-center gap-2">
                 <input
                   type="file"
                   onChange={handleFileChange}
+                  multiple
                   ref={fileInputRef}
                   className="hidden"
                 />

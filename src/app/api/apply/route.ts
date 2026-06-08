@@ -12,6 +12,13 @@ export async function POST(req: Request) {
     let fileUrl = null;
     let fileName = null;
 
+    const uploadsDir = join(process.cwd(), "public", "uploads");
+    if (!existsSync(uploadsDir)) {
+      await mkdir(uploadsDir, { recursive: true });
+    }
+
+    const uploadedFiles: { url: string; name: string }[] = [];
+
     if (contentType.includes("multipart/form-data")) {
       const formData = await req.formData();
       parentName = formData.get("parentName") as string;
@@ -22,23 +29,22 @@ export async function POST(req: Request) {
       email = formData.get("email") as string;
       about = formData.get("about") as string;
       gender = formData.get("gender") as string;
-      const file = formData.get("file") as File;
+      const files = formData.getAll("files") as File[];
 
-      if (file && file.size > 0) {
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
+      for (const file of files) {
+        if (file && file.size > 0) {
+          const bytes = await file.arrayBuffer();
+          const buffer = Buffer.from(bytes);
 
-        const uploadsDir = join(process.cwd(), "public", "uploads");
-        if (!existsSync(uploadsDir)) {
-          await mkdir(uploadsDir, { recursive: true });
+          const uniqueName = `${Date.now()}-${file.name}`;
+          const path = join(uploadsDir, uniqueName);
+          await writeFile(path, buffer);
+
+          uploadedFiles.push({
+            url: `/uploads/${uniqueName}`,
+            name: file.name
+          });
         }
-
-        const uniqueName = `${Date.now()}-${file.name}`;
-        const path = join(uploadsDir, uniqueName);
-        await writeFile(path, buffer);
-
-        fileUrl = `/uploads/${uniqueName}`;
-        fileName = file.name;
       }
     } else {
       const body = await req.json();
@@ -59,8 +65,9 @@ export async function POST(req: Request) {
         email,
         about,
         childGender: gender ? gender.toUpperCase() : "MALE",
-        fileUrl,
-        fileName,
+        media: {
+          create: uploadedFiles
+        }
       },
     });
 

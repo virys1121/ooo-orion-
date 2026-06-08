@@ -46,7 +46,7 @@ model Group {
 }
 
 model Application {
-  id              String   @id @default(cuid())
+  id              String             @id @default(cuid())
   parentName      String
   childName       String
   childAge        String?
@@ -55,36 +55,67 @@ model Application {
   email           String
   about           String
   childGender     String
-  type            String   @default("ENROLLMENT")
+  type            String             @default("ENROLLMENT")
   stayDates       String?
   groupId         String?
-  status          String   @default("PENDING")
+  status          String             @default("PENDING")
   fileUrl         String?
   fileName        String?
-  createdAt       DateTime @default(now())
+  media           ApplicationMedia[]
+  createdAt       DateTime           @default(now())
+}
+
+model ApplicationMedia {
+  id            String      @id @default(cuid())
+  url           String
+  name          String?
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
 }
 
 model NewsPost {
-  id        String   @id @default(cuid())
+  id        String      @id @default(cuid())
   title     String
   content   String
   authorId  String
   mediaUrl  String?
   mediaType String?
   fileName  String?
+  media     NewsMedia[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model NewsMedia {
+  id        String   @id @default(cuid())
+  url       String
+  type      String
+  name      String?
+  postId    String
+  post      NewsPost @relation(fields: [postId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Message {
-  id         String   @id @default(cuid())
+  id         String         @id @default(cuid())
   content    String?
   fileUrl    String?
   fileName   String?
   senderId   String
   groupId    String?
   receiverId String?
-  createdAt  DateTime @default(now())
-  group      Group?   @relation(fields: [groupId], references: [id])
-  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  media      MessageMedia[]
+  createdAt  DateTime       @default(now())
+  group      Group?         @relation(fields: [groupId], references: [id])
+  sender     User           @relation("SentMessages", fields: [senderId], references: [id])
+}
+
+model MessageMedia {
+  id        String   @id @default(cuid())
+  url       String
+  name      String?
+  messageId String
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }

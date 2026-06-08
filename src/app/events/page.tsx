@@ -13,6 +13,7 @@ export default async function EventsPage() {
   }
 
   const news = await prisma.newsPost.findMany({
+    include: { media: true },
     orderBy: { createdAt: "desc" },
   });
 
@@ -52,40 +53,51 @@ export default async function EventsPage() {
 
           {news.map((post) => (
             <article key={post.id} className="bg-white rounded-[3rem] shadow-2xl border-4 border-blue-900 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
-              {post.mediaUrl && (
-                <div className="bg-gray-100 border-b border-gray-100">
-                  {post.mediaType === "IMAGE" ? (
-                    <div className="relative aspect-video max-h-[600px] w-full overflow-hidden">
-                      <img
-                        src={post.mediaUrl}
-                        alt={post.title}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                      />
+              {post.media.length > 0 && (
+                <div className="bg-gray-50 border-b border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-1 p-1">
+                  {post.media.map((item) => (
+                    <div key={item.id} className="relative group overflow-hidden">
+                      {item.type === "IMAGE" ? (
+                        <div className="aspect-video relative overflow-hidden bg-gray-100 rounded-2xl">
+                          <img
+                            src={item.url}
+                            alt={item.name || ""}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                          />
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="absolute inset-0 bg-blue-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                          >
+                            <ExternalLink className="text-white w-8 h-8" />
+                          </a>
+                        </div>
+                      ) : item.type === "VIDEO" ? (
+                        <div className="aspect-video w-full bg-black rounded-2xl overflow-hidden">
+                          <video src={item.url} controls className="w-full h-full" />
+                        </div>
+                      ) : (
+                        <div className="p-6 bg-white border border-blue-100 rounded-2xl flex flex-col items-center justify-center text-center space-y-3 h-full">
+                          <div className="bg-blue-50 p-3 rounded-xl text-blue-600">
+                            <FileText className="w-6 h-6" />
+                          </div>
+                          <div className="min-w-0 w-full px-2">
+                            <p className="font-bold text-blue-900 text-sm truncate">{item.name || "Файл"}</p>
+                          </div>
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-blue-900 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-yellow-400 hover:text-blue-900 transition-all flex items-center gap-2 shadow-md"
+                          >
+                            <Download className="w-3 h-3" />
+                            Скачать
+                          </a>
+                        </div>
+                      )}
                     </div>
-                  ) : post.mediaType === "VIDEO" ? (
-                    <div className="aspect-video w-full bg-black">
-                      <video src={post.mediaUrl} controls className="w-full h-full" />
-                    </div>
-                  ) : (
-                    <div className="p-12 flex flex-col items-center justify-center text-center space-y-4">
-                      <div className="bg-blue-100 p-6 rounded-3xl text-blue-600 shadow-inner">
-                        <FileText className="w-12 h-12" />
-                      </div>
-                      <div>
-                        <p className="font-black text-blue-900 text-lg">{post.fileName || "Документ"}</p>
-                        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Прикрепленный файл</p>
-                      </div>
-                      <a
-                        href={post.mediaUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-blue-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-yellow-400 hover:text-blue-900 transition-all flex items-center gap-2 shadow-lg"
-                      >
-                        <Download className="w-5 h-5" />
-                        Скачать документ
-                      </a>
-                    </div>
-                  )}
+                  ))}
                 </div>
               )}
 
@@ -103,19 +115,6 @@ export default async function EventsPage() {
                   {post.content}
                 </p>
 
-                {post.mediaUrl && post.mediaType !== "DOCUMENT" && (
-                  <div className="mt-8 pt-8 border-t border-gray-50 flex justify-end">
-                    <a
-                      href={post.mediaUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-900 font-black text-sm uppercase tracking-widest flex items-center gap-2 hover:text-blue-600 transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Открыть в полном размере
-                    </a>
-                  </div>
-                )}
               </div>
             </article>
           ))}

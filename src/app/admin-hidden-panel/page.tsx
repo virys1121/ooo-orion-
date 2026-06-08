@@ -12,6 +12,7 @@ export default async function AdminPage() {
   }
 
   const applications = await prisma.application.findMany({
+    include: { media: true },
     orderBy: { createdAt: "desc" },
   });
 
